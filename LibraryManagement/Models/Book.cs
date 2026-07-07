@@ -27,6 +27,9 @@ namespace LibraryManagement.Models
        
         public int quantity { get; set; }
         [Required]
+       
+        public int qtyforborrow { get; set; }
+        [Required]
         
         public int BookPrice { get; set; }
 
@@ -37,5 +40,7 @@ namespace LibraryManagement.Models
         [Column(TypeName = "varchar(150)")]
         public string BookImageName { get; set; }
         public bool IsActive { get; set; }
+        public virtual ICollection<BorrowRequest> BorrowRequests { get; set; }
+        public virtual ICollection<IssuedBook> IssuedBooks  { get; set; }
     }
 }

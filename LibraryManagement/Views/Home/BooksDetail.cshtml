@@ -586,10 +586,10 @@
             </div>
 
             <div class="btn-row">
-            <button class="borrow-btn">
+            <a asp-action="BorrowRequest" asp-controller="Home" asp-route-id="@Model.BookId" class="borrow-btn">
                 <i class="ti ti-arrow-bear-left"></i>
                 Borrow
-            </button>
+            </a>
             </div>
 
             <hr class="divider">

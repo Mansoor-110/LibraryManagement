@@ -72,6 +72,11 @@
                                 <span asp-validation-for="quantity" class="text-danger"></span>
                             </div>
                             <div class="form-group">
+                                <label asp-for="qtyforborrow" class="control-label"></label>
+                                <input type="number" asp-for="qtyforborrow" class="form-control" />
+                                <span asp-validation-for="qtyforborrow" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
                                 <label>Current Image</label><br />
                                 <img src="~/BookImages/@Model.BookImageName"
                                      width="120" />

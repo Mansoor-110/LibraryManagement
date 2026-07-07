@@ -29,5 +29,8 @@ namespace LibraryManagement.Models
         public string Role { get; set; } = "User";
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public virtual ICollection<BorrowRequest> BorrowRequests { get; set; }
+        public virtual ICollection<IssuedBook> IssuedBooks { get; set; }
+
     }
 }

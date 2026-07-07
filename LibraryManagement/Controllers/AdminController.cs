@@ -78,6 +78,7 @@ namespace LibraryManagement.Controllers
                             BookName = obj.BookName,
                             BookPrice = obj.BookPrice,
                             quantity = obj.quantity,
+                            qtyforborrow = obj.qtyforborrow,
                             BookDescription = obj.BookDescription,
                             BookAuthor = obj.BookAuthor,
                             BookLanguage = obj.BookLanguage,
@@ -123,6 +124,7 @@ namespace LibraryManagement.Controllers
             data.BookDescription = obj.BookDescription;
             data.BookPages = obj.BookPages;
             data.quantity = obj.quantity;
+            data.qtyforborrow = obj.qtyforborrow;
             data.BookPrice = obj.BookPrice;
             data.IsActive = obj.IsActive;
 

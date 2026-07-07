@@ -1,7 +1,8 @@
-using System.Diagnostics;
 using LibraryManagement.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.Diagnostics;
+using System.Net;
 
 namespace LibraryManagement.Controllers
 {
@@ -29,6 +30,8 @@ namespace LibraryManagement.Controllers
             var find_specific = _context.Books.Find(id);
             return View(find_specific);
         }
+
+        
         public IActionResult About()
         {
             return View();
@@ -54,13 +57,12 @@ namespace LibraryManagement.Controllers
         [HttpPost]
         public IActionResult Register(User obj)
         {
-            if (ModelState.IsValid)
-            {
+            
 
             _context.Users.Add(obj);
             _context.SaveChanges();
                 return RedirectToAction("Login","Home");
-            }
+            
             return View(obj);
         }
         //====================================Login====================================\\
@@ -99,7 +101,36 @@ namespace LibraryManagement.Controllers
             return RedirectToAction("Index","Home");
         }
 
+        public IActionResult BorrowRequest(int id)
+        {
+            int bookid = id;
+            var userId = HttpContext.Session.GetInt32("UserId");
+            
 
+            if(userId == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            var existingRecord = _context.BorrowRequests.FirstOrDefault(br =>
+            br.User_id == userId &&
+            br.BookId == bookid);
+            if (existingRecord != null)
+            {
+                return RedirectToAction("Index","Home");
+            }
+            BorrowRequest BorrowObj = new BorrowRequest
+            {
+                BookId = bookid,
+                User_id = (int)userId
+
+            };
+            _context.BorrowRequests.Add(BorrowObj);
+            _context.SaveChanges();
+
+
+
+            return RedirectToAction("BooksDetail", new { id = bookid });
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -39,6 +39,7 @@
                                         <th>BookImage</th>
                                         <th>BookName</th>
                                         <th>Quantity</th>
+                                        <th>Qty For Borrow</th>
                                         <th>Price</th>
                                         <th>Is Active</th>
                                         <th>Action</th>
@@ -52,6 +53,7 @@
                                             <td><img src="~/BookImages/@item.BookImageName"  width="100" /> </td>
                                             <td>@item.BookName</td>
                                             <td>@item.quantity</td>
+                                            <td>@item.qtyforborrow</td>
                                             <td>@item.BookPrice</td>
                                             <td>@item.IsActive</td>
                                             
@@ -85,6 +87,7 @@
                                                                         <li>Pages : @item.BookPages</li>
                                                                         <li>Book Language : @item.BookLanguage</li>
                                                                         <li>Quantity : @item.quantity</li>
+                                                                        <li>Qty Available for Borrow : @item.qtyforborrow</li>
                                                                         <li>Price : @item.BookPrice</li>
                                                                         <li>Is Active : @item.IsActive</li>
                                                                     </ul>
