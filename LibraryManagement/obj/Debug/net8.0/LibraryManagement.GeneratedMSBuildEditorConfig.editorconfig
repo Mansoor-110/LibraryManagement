@@ -84,6 +84,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/DELL 7310/source/repos/LibraryManagement/LibraryManagement/Views/Librarian/BorrowRequests.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlicmFyaWFuXEJvcnJvd1JlcXVlc3RzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL 7310/source/repos/LibraryManagement/LibraryManagement/Views/Librarian/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlicmFyaWFuXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL 7310/source/repos/LibraryManagement/LibraryManagement/Views/Librarian/Users.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlicmFyaWFuXFVzZXJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/DELL 7310/source/repos/LibraryManagement/LibraryManagement/Views/Librarian/ViewBook.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGlicmFyaWFuXFZpZXdCb29rLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/DELL 7310/source/repos/LibraryManagement/LibraryManagement/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -107,3 +123,7 @@ build_metadata.AdditionalFiles.CssScope = b-a5dut8hgxd
 [C:/Users/DELL 7310/source/repos/LibraryManagement/LibraryManagement/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-zogy9lo6il
+
+[C:/Users/DELL 7310/source/repos/LibraryManagement/LibraryManagement/Views/Shared/_librarianLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9saWJyYXJpYW5MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-7evjasci56

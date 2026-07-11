@@ -89,7 +89,7 @@ namespace LibraryManagement.Controllers
 
                         _context.Books.Add(book);
                         _context.SaveChanges();
-                        return RedirectToAction("Index", "Admin");
+                        return RedirectToAction("ViewBook", "Admin");
 
                     }
                 }

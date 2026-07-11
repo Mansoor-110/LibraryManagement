@@ -484,7 +484,15 @@
     }
 </style>
 
-
+@if (TempData["ExistingMessage"] != null)
+{
+<div class="container mt-3">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["ExistingMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+</div>
+}
     <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
         <h6 class="section-title bg-white text-center text-primary px-3">Books</h6>
         <h1 class="mb-5">Wide Range Of Books!</h1>

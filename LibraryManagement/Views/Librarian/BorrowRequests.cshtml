@@ -1,0 +1,82 @@
+﻿@model List<LibraryManagement.Models.BorrowRequestVM>
+@{
+    Layout = "~/views/shared/_librarianLayout.cshtml";
+}
+
+<!--**********************************
+           Content body start
+       ***********************************-->
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row page-titles mx-0">
+            <div class="col-sm-6 p-md-0">
+                <div class="welcome-text">
+                    <h4>Hi, welcome back!</h4>
+                    <p class="mb-0">Your business dashboard template</p>
+                </div>
+            </div>
+            <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Bootstrap</a></li>
+                </ol>
+            </div>
+        </div>
+        <!-- row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Requests</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table primary-table-bordered table-responsive-sm text-muted">
+                                <thead class="thead-primary">
+                                    <tr class="text-primary">
+                                        <th width="60px">Request Id</th>
+                                        <th width="120px">Book Image</th>
+                                        <th width="150px">Book Name</th>
+                                        <th width="200px">Requested By</th>
+                                        <th width="90px">Status</th>
+                                        <th width="70px">Qty For Borrow</th>
+                                        <th width="110px">Request Date</th>
+                                        <th width="80px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.borrowRequestid</td>
+                                            <td><img src="~/BookImages/@item.BookImageName" width="100" /></td>
+                                            <td>@item.BookName</td>
+                                            <td>
+                                                <span class="font-weight-bold">Name:</span> @item.User_name <br>
+                                                <span class="font-weight-bold">Email:</span> @item.Email
+                                            </td>
+                                            <td>@item.Status</td>
+                                            <td>@item.qtyforborrow</td>
+                                            <td>@item.CreatedAt.ToString("dd-MMMM-yy")</td>
+                                            <td>
+
+                                                <a asp-action="BorrowEdit" asp-route-id="@item.borrowRequestid" class="btn btn-outline-success mb-2" style="width: 90px;">Approve</a>
+
+                                                <a asp-action="BorrowReject" asp-route-id="@item.borrowRequestid" class="btn btn-danger" style="width: 90px;">Reject </a>
+                                               
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--**********************************
+    Content body end
+***********************************-->

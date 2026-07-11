@@ -88,10 +88,13 @@ namespace LibraryManagement.Controllers
             if(user.Role == "Admin")
             {
                 return RedirectToAction("Index", "Admin");
+            }else if(user.Role == "Librarian")
+            {
+                return RedirectToAction("Index", "Librarian");
             }
-            
 
-            return RedirectToAction("Index", "Home");
+
+                return RedirectToAction("Index", "Home");
             
         }
         //===============================Logout===========================
@@ -116,7 +119,8 @@ namespace LibraryManagement.Controllers
             br.BookId == bookid);
             if (existingRecord != null)
             {
-                return RedirectToAction("Index","Home");
+                TempData["ExistingMessage"] = "Your request is in the process. The librarian will review it shortly.";
+                return RedirectToAction("BooksDetail", new { id = bookid });
             }
             BorrowRequest BorrowObj = new BorrowRequest
             {
@@ -128,8 +132,8 @@ namespace LibraryManagement.Controllers
             _context.SaveChanges();
 
 
-
-            return RedirectToAction("BooksDetail", new { id = bookid });
+            TempData["SuccessMessage"] = "Your request is successfully sent to the Librarian. He'll review it shortly";
+            return RedirectToAction("Profile", "Home");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

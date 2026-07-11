@@ -1,0 +1,124 @@
+﻿@model IEnumerable<LibraryManagement.Models.Book>
+@{
+    Layout = "~/views/shared/_librarianLayout.cshtml";
+}
+
+<!--**********************************
+           Content body start
+       ***********************************-->
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row page-titles mx-0">
+            <div class="col-sm-6 p-md-0">
+                <div class="welcome-text">
+                    <h4>Hi, welcome back!</h4>
+                    <p class="mb-0">Your business dashboard template</p>
+                </div>
+            </div>
+            <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Bootstrap</a></li>
+                </ol>
+            </div>
+        </div>
+        <!-- row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Books Data</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table primary-table-bordered table-responsive-sm text-muted">
+                                <thead class="thead-primary">
+                                    <tr class="text-primary">
+                                        <th>BookId</th>
+                                        <th>BookImage</th>
+                                        <th>BookName</th>
+                                        <th>Quantity</th>
+                                        <th>Qty For Borrow</th>
+                                        <th>Price</th>
+                                        <th>Is Active</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.BookId</td>
+                                            <td><img src="~/BookImages/@item.BookImageName" width="100" /> </td>
+                                            <td>@item.BookName</td>
+                                            <td>@item.quantity</td>
+                                            <td>@item.qtyforborrow</td>
+                                            <td>@item.BookPrice</td>
+                                            <td>@item.IsActive</td>
+
+                                            <td disabled>
+                                                <span class="ml-3 me-3">
+
+                                                    @* <a asp-action="BookEdit" asp-route-id="@item.BookId" ><i class="fa fa-pencil text-info" title="Edit"></i></a> *@
+                                                </span>
+                                                <span class="ml-3 me-3">
+                                                    <!-- Button trigger modal -->
+                                                    <a data-toggle="modal" data-target="#exampleModalCenter-@item.BookId" type="button"><i class="fa-solid fa-eye text-primary" title="View" ></i></a>
+
+                                                    <a></a>
+
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="exampleModalCenter-@item.BookId" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title text-secondary" id="exampleModalLongTitle">Detail of this book</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <ul>
+                                                                        <li>Book-Name: <span class="text-black"> @item.BookName</span></li>
+                                                                        <li><img src="~/BookImages/@item.BookImageName" alt="Alternate Text" width="120" /></li>
+                                                                        <li>Description: <p>@item.BookDescription</p></li>
+                                                                        <li>Author: @item.BookAuthor</li>
+                                                                        <li>Pages : @item.BookPages</li>
+                                                                        <li>Book Language : @item.BookLanguage</li>
+                                                                        <li>Quantity : @item.quantity</li>
+                                                                        <li>Qty Available for Borrow : @item.qtyforborrow</li>
+                                                                        <li>Price : @item.BookPrice</li>
+                                                                        <li>Is Active : @item.IsActive</li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </span>
+
+
+
+
+
+                                            </td>
+
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--**********************************
+    Content body end
+***********************************-->

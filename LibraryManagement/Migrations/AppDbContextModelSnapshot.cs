@@ -81,6 +81,9 @@ namespace LibraryManagement.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("varchar(150)");

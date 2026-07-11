@@ -1,0 +1,73 @@
+﻿@model IEnumerable<LibraryManagement.Models.User>
+
+@{
+    Layout = "~/views/shared/_librarianLayout.cshtml";
+}
+<!--**********************************
+           Content body start
+       ***********************************-->
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row page-titles mx-0">
+            <div class="col-sm-6 p-md-0">
+                <div class="welcome-text">
+                    <h4>Hi, welcome back!</h4>
+                    <p class="mb-0">Your business dashboard template</p>
+                </div>
+            </div>
+            <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Bootstrap</a></li>
+                </ol>
+            </div>
+        </div>
+        <!-- row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Users' Data</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table primary-table-bordered table-responsive-sm text-muted">
+                                <thead class="thead-primary">
+                                    <tr class="text-primary">
+                                        <th>User Id</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Password</th>
+                                        <th>Role</th>
+                                        <th>Created-At</th>
+                                    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@Html.DisplayFor(modelItem => item.User_id)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.User_name)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Password)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Role)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                                            
+
+                                        </tr>
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--**********************************
+    Content body end
+***********************************-->

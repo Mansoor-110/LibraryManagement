@@ -146,3 +146,4 @@ C:\Users\DELL 7310\source\repos\LibraryManagement\LibraryManagement\bin\Debug\ne
 C:\Users\DELL 7310\source\repos\LibraryManagement\LibraryManagement\obj\Debug\net8.0\LibraryManagement.csproj.AssemblyReference.cache
 C:\Users\DELL 7310\source\repos\LibraryManagement\LibraryManagement\obj\Debug\net8.0\LibraryM.685EF3B5.Up2Date
 C:\Users\DELL 7310\source\repos\LibraryManagement\LibraryManagement\obj\Debug\net8.0\LibraryManagement.sourcelink.json
+C:\Users\DELL 7310\source\repos\LibraryManagement\LibraryManagement\obj\Debug\net8.0\scopedcss\Views\Shared\_librarianLayout.cshtml.rz.scp.css

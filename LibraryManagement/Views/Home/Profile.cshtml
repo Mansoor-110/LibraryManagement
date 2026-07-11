@@ -1,1 +1,605 @@
-﻿
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile — eLEARNING</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --teal: #1cb8ba;
+            --teal-dark: #149193;
+            --teal-tint: #eafcfc;
+            --navy: #14213d;
+            --gray: #6f7c8e;
+            --amber: #f2994a;
+            --amber-tint: #fff4e8;
+            --red: #e0575b;
+            --red-tint: #fdeceb;
+            --radius: 10px;
+            --shadow: 0 10px 30px rgba(20,33,61,0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins',sans-serif;
+            color: var(--navy);
+            background: #ffffff;
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+
+
+
+        section {
+            padding: 64px 0;
+        }
+
+            section + section {
+                border-top: 1px solid #eef1f6;
+            }
+
+        /* ---------- profile hero ---------- */
+        .profile-card {
+            display: flex;
+            align-items: center;
+            gap: 26px;
+            background: var(--teal-tint);
+            border-radius: var(--radius);
+            padding: 30px 34px;
+            margin-bottom: 26px;
+            flex-wrap: wrap;
+        }
+
+        .avatar {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            background: var(--teal);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 600;
+            flex: none;
+        }
+
+        .profile-info h2 {
+            margin: 0 0 4px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .profile-info p {
+            margin: 0 0 3px;
+            color: var(--gray);
+            font-size: 14.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .profile-info p i {
+                color: var(--teal);
+                width: 14px;
+            }
+
+        .stat-row {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 24px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border: 1px solid #eef1f6;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 26px 24px;
+            text-align: center;
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+
+            .stat-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 16px 34px rgba(20,33,61,.12);
+            }
+
+        .stat-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 20px;
+            background: var(--teal-tint);
+            color: var(--teal);
+        }
+
+        .stat-card.fine .stat-icon {
+            background: var(--amber-tint);
+            color: var(--amber);
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-card.fine .stat-value {
+            color: var(--amber);
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 13.5px;
+        }
+
+        .stat-sub {
+            color: var(--gray);
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .pay-btn {
+            display: inline-block;
+            margin-top: 14px;
+            background: var(--amber);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: 4px;
+            transition: background .2s ease;
+        }
+
+            .pay-btn:hover {
+                background: #e0863a;
+                color: #fff;
+            }
+
+        /* ---------- issued books cards ---------- */
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 26px;
+        }
+
+        .book-card {
+            border: 1px solid #eef1f6;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background: #fff;
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+
+            .book-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 16px 34px rgba(20,33,61,.12);
+            }
+
+        .book-cover {
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            color: #fff;
+            position: relative;
+        }
+
+            .book-cover i {
+                opacity: .9;
+            }
+
+        .cover-1 {
+            background: linear-gradient(135deg,#1cb8ba,#0d7f80);
+        }
+
+        .cover-2 {
+            background: linear-gradient(135deg,#2c3e63,#14213d);
+        }
+
+        .cover-3 {
+            background: linear-gradient(135deg,#3fd0c9,#1a9c96);
+        }
+
+        .status-chip {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+        }
+
+        .chip-ontime {
+            background: #fff;
+            color: var(--teal);
+        }
+
+        .chip-overdue {
+            background: #fff;
+            color: var(--red);
+        }
+
+        .book-body {
+            padding: 20px;
+        }
+
+        .book-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0 0 4px;
+        }
+
+        .book-author {
+            font-size: 13px;
+            color: var(--gray);
+            margin: 0 0 14px;
+        }
+
+        .book-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12.5px;
+            color: var(--gray);
+            border-top: 1px solid #f0f2f6;
+            padding-top: 12px;
+        }
+
+            .book-meta span i {
+                color: var(--teal);
+                margin-right: 5px;
+            }
+
+        .book-fine-note {
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--red);
+            font-weight: 500;
+        }
+
+        /* ---------- tables (requests / history) ---------- */
+        .table-card {
+            border: 1px solid #eef1f6;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        thead tr {
+            background: var(--teal-tint);
+        }
+
+        th {
+            text-align: left;
+            padding: 16px 20px;
+            font-size: 12.5px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        td {
+            padding: 16px 20px;
+            border-top: 1px solid #f0f2f6;
+            color: var(--navy);
+            vertical-align: middle;
+        }
+
+            td.book-cell {
+                font-weight: 500;
+            }
+
+            td.muted, .muted {
+                color: var(--gray);
+            }
+
+        .badge-pill {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 5px 14px;
+            border-radius: 20px;
+        }
+
+        .badge-pending {
+            background: var(--amber-tint);
+            color: var(--amber);
+        }
+
+        .badge-approved {
+            background: var(--teal-tint);
+            color: var(--teal-dark);
+        }
+
+        .badge-rejected {
+            background: var(--red-tint);
+            color: var(--red);
+        }
+
+        .badge-ontime {
+            background: var(--teal-tint);
+            color: var(--teal-dark);
+        }
+
+        .badge-late {
+            background: var(--red-tint);
+            color: var(--red);
+        }
+
+        /* ---------- responsive ---------- */
+        @@media (max-width:900px) {
+            .stat-row
+
+        {
+            grid-template-columns: 1fr;
+        }
+
+        .book-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        }
+        @@media (max-width:640px) {
+            .book-grid
+
+        {
+            grid-template-columns: 1fr;
+        }
+
+        .profile-card {
+            text-align: center;
+            justify-content: center;
+        }
+
+        table {
+            font-size: 13px;
+        }
+
+        th, td {
+            padding: 12px 10px;
+        }
+
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-page">
+
+        <!-- ============ PROFILE OVERVIEW ============ -->
+        <section>
+            <div class="container">
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @TempData["SuccessMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title bg-white text-center text-primary px-3">Dashboard</h6>
+                    <h1 class="mb-5">My Profile</h1>
+                </div>
+
+                <div class="profile-card">
+                    <div class="avatar">JD</div>
+                    <div class="profile-info">
+                        <h2>John Doe</h2>
+                        <p><i class="fa-solid fa-envelope"></i> john.doe@example.com</p>
+                        <p><i class="fa-solid fa-id-card"></i> Student ID: EL-20481</p>
+                        <p><i class="fa-solid fa-calendar"></i> Member since Jan 2025</p>
+                    </div>
+                </div>
+
+                <div class="stat-row">
+                    <div class="stat-card fine">
+                        <div class="stat-icon"><i class="fa-solid fa-coins"></i></div>
+                        <div class="stat-value">$4.50</div>
+                        <div class="stat-label">Outstanding Fine</div>
+                        <div class="stat-sub">$2.50 from a past return + $2.00 accruing on an overdue book</div>
+                        <a href="#" class="pay-btn">Pay Now</a>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-book"></i></div>
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Books Currently Issued</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                        <div class="stat-value">1</div>
+                        <div class="stat-label">Pending Borrow Request</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ ISSUED BOOKS ============ -->
+        <section>
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title bg-white text-center text-primary px-3">Library</h6>
+                    <h1 class="mb-5">Issued Books</h1>
+                </div>
+                <div class="book-grid">
+
+                    <div class="book-card">
+                        <div class="book-cover cover-1">
+                            <i class="fa-solid fa-book-open"></i>
+                            <span class="status-chip chip-ontime">On Time</span>
+                        </div>
+                        <div class="book-body">
+                            <p class="book-title">Clean Code</p>
+                            <p class="book-author">Robert C. Martin</p>
+                            <div class="book-meta">
+                                <span><i class="fa-regular fa-calendar-check"></i>Issued Jun 20</span>
+                                <span><i class="fa-regular fa-clock"></i>Due Jul 20</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-cover cover-2">
+                            <i class="fa-solid fa-book-open"></i>
+                            <span class="status-chip chip-overdue">Overdue</span>
+                        </div>
+                        <div class="book-body">
+                            <p class="book-title">The Design of Everyday Things</p>
+                            <p class="book-author">Don Norman</p>
+                            <div class="book-meta">
+                                <span><i class="fa-regular fa-calendar-check"></i>Issued Jun 10</span>
+                                <span><i class="fa-regular fa-clock"></i>Due Jul 10</span>
+                            </div>
+                            <p class="book-fine-note">2 days overdue — $1.00/day fine accruing</p>
+                        </div>
+                    </div>
+
+                    <div class="book-card">
+                        <div class="book-cover cover-3">
+                            <i class="fa-solid fa-book-open"></i>
+                            <span class="status-chip chip-ontime">On Time</span>
+                        </div>
+                        <div class="book-body">
+                            <p class="book-title">Eloquent JavaScript</p>
+                            <p class="book-author">Marijn Haverbeke</p>
+                            <div class="book-meta">
+                                <span><i class="fa-regular fa-calendar-check"></i>Issued Jul 1</span>
+                                <span><i class="fa-regular fa-clock"></i>Due Jul 31</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ BORROW REQUESTS ============ -->
+        <section>
+            <div class="container">
+                        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title bg-white text-center text-primary px-3">Requests</h6>
+            <h1 class="mb-5">Borrow Requests</h1>
+        </div>
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Book</th>
+                                <th>Requested On</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="book-cell">Adobe Photoshop Handbook</td>
+                                <td class="muted">Jul 9, 2026</td>
+                                <td><span class="badge-pill badge-pending">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td class="book-cell">Digital Marketing Essentials</td>
+                                <td class="muted">Jul 5, 2026</td>
+                                <td><span class="badge-pill badge-approved">Approved</span></td>
+                            </tr>
+                            <tr>
+                                <td class="book-cell">Don't Make Me Think</td>
+                                <td class="muted">Jul 2, 2026</td>
+                                <td><span class="badge-pill badge-rejected">Rejected</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============ HISTORY ============ -->
+        <section>
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title bg-white text-center text-primary px-3">Histor</h6>
+                    <h1 class="mb-5">Borrowing History</h1>
+                </div>
+
+                <div class="table-card">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Book</th>
+                                <th>Issued</th>
+                                <th>Returned</th>
+                                <th>Fine Paid</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="book-cell">Introduction to Algorithms</td>
+                                <td class="muted">May 1, 2026</td>
+                                <td class="muted">May 28, 2026</td>
+                                <td class="muted">$0.00</td>
+                                <td><span class="badge-pill badge-ontime">Returned On Time</span></td>
+                            </tr>
+                            <tr>
+                                <td class="book-cell">HTML &amp; CSS Design</td>
+                                <td class="muted">Apr 10, 2026</td>
+                                <td class="muted">Apr 25, 2026</td>
+                                <td class="muted">$0.00</td>
+                                <td><span class="badge-pill badge-ontime">Returned On Time</span></td>
+                            </tr>
+                            <tr>
+                                <td class="book-cell">JavaScript: The Good Parts</td>
+                                <td class="muted">Mar 5, 2026</td>
+                                <td class="muted">Mar 20, 2026</td>
+                                <td class="muted">$2.50</td>
+                                <td><span class="badge-pill badge-late">Returned Late</span></td>
+                            </tr>
+                            <tr>
+                                <td class="book-cell">Grokking Algorithms</td>
+                                <td class="muted">Feb 1, 2026</td>
+                                <td class="muted">Feb 15, 2026</td>
+                                <td class="muted">$0.00</td>
+                                <td><span class="badge-pill badge-ontime">Returned On Time</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>

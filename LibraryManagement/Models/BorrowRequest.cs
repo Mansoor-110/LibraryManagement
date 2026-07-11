@@ -19,7 +19,7 @@ namespace LibraryManagement.Models
         [Column(TypeName = "varchar(150)")]
         public string Status { get; set; } = "Pending";
 
-        DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
 
     }
