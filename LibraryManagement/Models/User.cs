@@ -32,5 +32,6 @@ namespace LibraryManagement.Models
         public virtual ICollection<BorrowRequest> BorrowRequests { get; set; }
         public virtual ICollection<IssuedBook> IssuedBooks { get; set; }
 
+
     }
 }

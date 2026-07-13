@@ -41,6 +41,7 @@ namespace LibraryManagement.Models
         public string BookImageName { get; set; }
         public bool IsActive { get; set; }
         public virtual ICollection<BorrowRequest> BorrowRequests { get; set; }
-        public virtual ICollection<IssuedBook> IssuedBooks  { get; set; }
+        public virtual ICollection<IssuedBook> IssuedBooks { get; set; }
+
     }
 }

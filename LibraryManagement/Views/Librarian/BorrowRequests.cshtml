@@ -6,6 +6,52 @@
 <!--**********************************
            Content body start
        ***********************************-->
+       <style>
+    :root {
+        --teal: #1cb8ba;
+        --teal-dark: #149193;
+        --teal-tint: #eafcfc;
+        --navy: #14213d;
+        --gray: #6f7c8e;
+        --amber: #f2994a;
+        --amber-tint: #fff4e8;
+        --red: #e0575b;
+        --red-tint: #fdeceb;
+        --radius: 10px;
+        --shadow: 0 10px 30px rgba(20,33,61,0.08);
+    }
+    .badge-pill {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 5px 14px;
+        border-radius: 20px;
+    }
+    .badge-pending {
+        background: var(--amber-tint);
+        color: var(--amber);
+    }
+
+    .badge-approved {
+        background: var(--teal-tint);
+        color: var(--teal-dark);
+    }
+
+    .badge-rejected {
+        background: var(--red-tint);
+        color: var(--red);
+    }
+
+    .badge-ontime {
+        background: var(--teal-tint);
+        color: var(--teal-dark);
+    }
+
+    .badge-late {
+        background: var(--red-tint);
+        color: var(--red);
+    }
+       </style>
 <div class="content-body">
     <div class="container-fluid">
         <div class="row page-titles mx-0">
@@ -56,15 +102,39 @@
                                                 <span class="font-weight-bold">Name:</span> @item.User_name <br>
                                                 <span class="font-weight-bold">Email:</span> @item.Email
                                             </td>
-                                            <td>@item.Status</td>
+                                            @if (item.Status == "Pending")
+                                            {
+                                                <td><span class="badge-pill badge-pending">@item.Status</span></td>
+                                            }else if(item.Status == "Approved")
+                                            {
+                                                <td><span class="badge-pill badge-approved">@item.Status</span></td>
+
+                                            }
+                                            else
+                                            {
+                                                <td><span class="badge-pill badge-rejected">@item.Status</span></td>
+                                            }
                                             <td>@item.qtyforborrow</td>
                                             <td>@item.CreatedAt.ToString("dd-MMMM-yy")</td>
                                             <td>
+                                                @if (item.Status == "Pending" && item.qtyforborrow == 0) {
 
-                                                <a asp-action="BorrowEdit" asp-route-id="@item.borrowRequestid" class="btn btn-outline-success mb-2" style="width: 90px;">Approve</a>
 
-                                                <a asp-action="BorrowReject" asp-route-id="@item.borrowRequestid" class="btn btn-danger" style="width: 90px;">Reject </a>
-                                               
+
+
+                                                    <span class="font-weight-bold"> Not-Available</span>
+                                                    <a asp-action="RejectRequest" asp-route-id="@item.borrowRequestid" class="btn btn-danger" style="width: 90px;">Reject </a>
+
+
+                                                } else if (item.Status == "Pending"){
+
+                                                    <a asp-action="ApproveRequest" asp-route-id="@item.borrowRequestid" class="btn btn-outline-success mb-2" style="width: 90px;">Approve</a>
+
+                                                    <a asp-action="RejectRequest" asp-route-id="@item.borrowRequestid" class="btn btn-danger" style="width: 90px;">Reject </a>
+                                                } 
+                                                
+                                                 
+
                                             </td>
                                         </tr>
                                     }

@@ -570,28 +570,33 @@
             </li>
             </ul>
 
+        <form asp-action="AddToCart" asp-controller="Home" method="post">
+            <input type="hidden" name="id" value="@Model.BookId" />
+            <input type="hidden" name="quantity" id="quantityInput" value="1" />
+
             <div class="qty-row">
                 <span class="qty-label">Quantity</span>
                 <div class="qty-ctrl">
-                    <button class="qty-btn" onclick="changeQty(-1)">−</button>
-                    <span class="qty-val" id="qty" > 1</span>
-                    <button class="qty-btn" onclick="changeQty(1)">+</button>
+                    <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
+                    <span class="qty-val" id="qty">1</span>
+                    <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
                 </div>
             </div>
 
             <div class="btn-row">
-                <button class="btn-primary">
+                <button type="submit" class="btn-primary">
                     <i class="ti ti-shopping-cart" aria-hidden="true"></i>
                     Add to Cart
                 </button>
-                <button class="btn-outline">
+                <button type="button" class="btn-outline">
                     <i class="ti ti-bolt" aria-hidden="true"></i>
                     Buy Now
                 </button>
-                <button class="btn-wishlist" title="Add to wishlist">
+                <button type="button" class="btn-wishlist" title="Add to wishlist">
                     <i class="ti ti-heart" aria-hidden="true"></i>
                 </button>
             </div>
+        </form>
 
             <div class="btn-row">
             <a asp-action="BorrowRequest" asp-controller="Home" asp-route-id="@Model.BookId" class="borrow-btn">

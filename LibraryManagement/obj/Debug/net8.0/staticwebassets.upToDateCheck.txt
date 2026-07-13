@@ -4386,12 +4386,15 @@ wwwroot\assets\scss\bootstrap\scss\_utilities.scss
 wwwroot\assets\scss\bootstrap\scss\_variables.scss
 wwwroot\BookImages\1540beea-38b3-46d1-a0a7-1cc57648c8b1 alchemist.jpg
 wwwroot\BookImages\49b98e87-5565-4e82-91f8-acde5bc92da6 Ruthless Vows.jpg
+wwwroot\BookImages\570cef15-cfa0-4738-a4d9-6fe4602441aa License Renewed.jpg
+wwwroot\BookImages\5ebb048d-060c-4ed7-b83e-e17a0362c3fb 7 habit of highly effectice people.jpg
 wwwroot\BookImages\633e81c7-08c6-435e-a1dc-2fdaa6db5516 License Renewed.jpg
 wwwroot\BookImages\715bb99f-e756-4a6c-a1ff-e467f37a5b10 The Deserter.jpg
 wwwroot\BookImages\7b0b9197-e6ad-431a-910e-307a830fd27d Jinnah of PK.jpg
 wwwroot\BookImages\8ef3a71d-169c-46b2-8be3-25cc67c5d46b alchemist.jpg
 wwwroot\BookImages\a515d33a-eba6-4067-9f77-e4d5770307b0 alchemist.jpg
 wwwroot\BookImages\ab8195bf-3c70-478f-8e6b-382c1f1a1ba3 Ruthless Vows.jpg
+wwwroot\BookImages\ac48ef79-804f-4765-8c3f-3f42eeec9ac2 alchemist.jpg
 wwwroot\BookImages\b6b1abbe-8567-443a-a2b9-fbd54e286016 Jinnah of PK.jpg
 wwwroot\BookImages\c12e9f82-db79-4fc8-9626-31b08c4d4091 7 habit of highly effectice people.jpg
 wwwroot\BookImages\d60bb8bf-492c-4b23-b98f-834767d54469 alchemist.jpg
@@ -4400,6 +4403,7 @@ wwwroot\BookImages\e50fb614-2ee7-4b88-b9e9-08cd74566cbf the god father.jpg
 wwwroot\BookImages\e613240b-6564-42f2-9ccc-fb3a76d0c88f the god father.jpg
 wwwroot\BookImages\eae3d663-df57-450d-be24-ccb9d51794e5 alchemist.jpg
 wwwroot\BookImages\eee385e4-31fb-40a7-98b5-3d66e453c044 alchemist.jpg
+wwwroot\BookImages\ef73a583-67e3-4a99-822e-eff3ab737ead the god father.jpg
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\js\site.js

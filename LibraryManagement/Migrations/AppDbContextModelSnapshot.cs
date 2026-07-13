@@ -100,6 +100,35 @@ namespace LibraryManagement.Migrations
                     b.ToTable("BorrowRequests");
                 });
 
+            modelBuilder.Entity("LibraryManagement.Models.CartItem", b =>
+                {
+                    b.Property<int>("CartItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartItemId"));
+
+                    b.Property<DateTime>("AddedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("User_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartItemId");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("User_id");
+
+                    b.ToTable("CartItems");
+                });
+
             modelBuilder.Entity("LibraryManagement.Models.IssuedBook", b =>
                 {
                     b.Property<int>("issuedBookId")
@@ -108,10 +137,16 @@ namespace LibraryManagement.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("issuedBookId"));
 
-                    b.Property<int>("BookId")
+                    b.Property<int?>("BookId")
                         .HasColumnType("int");
 
-                    b.Property<int>("User_id")
+                    b.Property<int?>("User_id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("actualReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("borrowRequestid")
                         .HasColumnType("int");
 
                     b.Property<int>("fineAmount")
@@ -132,6 +167,8 @@ namespace LibraryManagement.Migrations
                     b.HasIndex("BookId");
 
                     b.HasIndex("User_id");
+
+                    b.HasIndex("borrowRequestid");
 
                     b.ToTable("IssuedBooks");
                 });
@@ -173,13 +210,32 @@ namespace LibraryManagement.Migrations
                     b.HasOne("LibraryManagement.Models.Book", "Book")
                         .WithMany("BorrowRequests")
                         .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("LibraryManagement.Models.User", "User")
                         .WithMany("BorrowRequests")
                         .HasForeignKey("User_id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LibraryManagement.Models.CartItem", b =>
+                {
+                    b.HasOne("LibraryManagement.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LibraryManagement.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("User_id")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Book");
@@ -189,27 +245,32 @@ namespace LibraryManagement.Migrations
 
             modelBuilder.Entity("LibraryManagement.Models.IssuedBook", b =>
                 {
-                    b.HasOne("LibraryManagement.Models.Book", "Book")
+                    b.HasOne("LibraryManagement.Models.Book", null)
                         .WithMany("IssuedBooks")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("BookId");
+
+                    b.HasOne("LibraryManagement.Models.User", null)
+                        .WithMany("IssuedBooks")
+                        .HasForeignKey("User_id");
+
+                    b.HasOne("LibraryManagement.Models.BorrowRequest", "BorrowRequest")
+                        .WithMany("IssuedBooks")
+                        .HasForeignKey("borrowRequestid")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("LibraryManagement.Models.User", "User")
-                        .WithMany("IssuedBooks")
-                        .HasForeignKey("User_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("User");
+                    b.Navigation("BorrowRequest");
                 });
 
             modelBuilder.Entity("LibraryManagement.Models.Book", b =>
                 {
                     b.Navigation("BorrowRequests");
 
+                    b.Navigation("IssuedBooks");
+                });
+
+            modelBuilder.Entity("LibraryManagement.Models.BorrowRequest", b =>
+                {
                     b.Navigation("IssuedBooks");
                 });
 

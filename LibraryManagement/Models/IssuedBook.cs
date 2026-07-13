@@ -8,17 +8,14 @@ namespace LibraryManagement.Models
         [Key]
         public int issuedBookId { get; set; }
 
-        public int User_id { get; set; }
-        [ForeignKey("User_id")]
-        public virtual User User { get; set; }
-        public int BookId { get; set; }
-        [ForeignKey("BookId")]
-        public virtual Book Book { get; set; }
-
-        public DateTime issuedDate { get; set; }
+        public int borrowRequestid { get; set; }
+        [ForeignKey("borrowRequestid")]
+        public virtual BorrowRequest BorrowRequest{ get; set; }
+       
+        public DateTime issuedDate { get; set; }= DateTime.Now;
         public DateTime returnDate { get; set; }
-
-        public int fineAmount { get; set; }
+        public DateTime? actualReturnDate { get; set; }
+        public int fineAmount { get; set; } = 0;
 
         [Required]
         [Column(TypeName = "varchar(150)")]

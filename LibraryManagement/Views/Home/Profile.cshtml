@@ -1,4 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@model LibraryManagement.Models.ProfileVM
+@{
+    string initials = "";
+    if (!string.IsNullOrWhiteSpace(Model.UserName))
+    {
+        var parts = Model.UserName.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        initials = parts.Length >= 2
+            ? $"{parts[0][0]}{parts[1][0]}".ToUpper()
+            : parts[0].Substring(0, Math.Min(2, parts[0].Length)).ToUpper();
+    }
+    string[] coverClasses = { "cover-1", "cover-2", "cover-3" };
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -362,37 +374,32 @@
 
         /* ---------- responsive ---------- */
         @@media (max-width:900px) {
-            .stat-row
+            .stat-row {
+                grid-template-columns: 1fr;
+            }
 
-        {
-            grid-template-columns: 1fr;
+            .book-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
-        .book-grid {
-            grid-template-columns: 1fr 1fr;
-        }
-
-        }
         @@media (max-width:640px) {
-            .book-grid
+            .book-grid {
+                grid-template-columns: 1fr;
+            }
 
-        {
-            grid-template-columns: 1fr;
-        }
+            .profile-card {
+                text-align: center;
+                justify-content: center;
+            }
 
-        .profile-card {
-            text-align: center;
-            justify-content: center;
-        }
+            table {
+                font-size: 13px;
+            }
 
-        table {
-            font-size: 13px;
-        }
-
-        th, td {
-            padding: 12px 10px;
-        }
-
+            th, td {
+                padding: 12px 10px;
+            }
         }
     </style>
 </head>
@@ -410,6 +417,13 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 }
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @TempData["ErrorMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
 
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <h6 class="section-title bg-white text-center text-primary px-3">Dashboard</h6>
@@ -417,32 +431,34 @@
                 </div>
 
                 <div class="profile-card">
-                    <div class="avatar">JD</div>
+                    <div class="avatar">@initials</div>
                     <div class="profile-info">
-                        <h2>John Doe</h2>
-                        <p><i class="fa-solid fa-envelope"></i> john.doe@example.com</p>
-                        <p><i class="fa-solid fa-id-card"></i> Student ID: EL-20481</p>
-                        <p><i class="fa-solid fa-calendar"></i> Member since Jan 2025</p>
+                        <h2>@Model.UserName</h2>
+                        <p><i class="fa-solid fa-envelope"></i> @Model.Email</p>
+                        <p><i class="fa-solid fa-id-card"></i> Student ID: @Model.UserId</p>
+                        <p><i class="fa-solid fa-calendar"></i> Member since @Model.MemberSince.ToString("MMM yyyy")</p>
                     </div>
                 </div>
 
                 <div class="stat-row">
                     <div class="stat-card fine">
                         <div class="stat-icon"><i class="fa-solid fa-coins"></i></div>
-                        <div class="stat-value">$4.50</div>
+                        <div class="stat-value">Rs. @Model.OutstandingFine</div>
                         <div class="stat-label">Outstanding Fine</div>
-                        <div class="stat-sub">$2.50 from a past return + $2.00 accruing on an overdue book</div>
-                        <a href="#" class="pay-btn">Pay Now</a>
+                        @if (Model.OutstandingFine > 0)
+                        {
+                            <a href="#" class="pay-btn">Pay Now</a>
+                        }
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fa-solid fa-book"></i></div>
-                        <div class="stat-value">3</div>
+                        <div class="stat-value">@Model.BooksCurrentlyIssuedCount</div>
                         <div class="stat-label">Books Currently Issued</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
-                        <div class="stat-value">1</div>
-                        <div class="stat-label">Pending Borrow Request</div>
+                        <div class="stat-value">@Model.PendingRequestsCount</div>
+                        <div class="stat-label">Pending Borrow Request@(Model.PendingRequestsCount == 1 ? "" : "s")</div>
                     </div>
                 </div>
             </div>
@@ -455,93 +471,96 @@
                     <h6 class="section-title bg-white text-center text-primary px-3">Library</h6>
                     <h1 class="mb-5">Issued Books</h1>
                 </div>
-                <div class="book-grid">
 
-                    <div class="book-card">
-                        <div class="book-cover cover-1">
-                            <i class="fa-solid fa-book-open"></i>
-                            <span class="status-chip chip-ontime">On Time</span>
-                        </div>
-                        <div class="book-body">
-                            <p class="book-title">Clean Code</p>
-                            <p class="book-author">Robert C. Martin</p>
-                            <div class="book-meta">
-                                <span><i class="fa-regular fa-calendar-check"></i>Issued Jun 20</span>
-                                <span><i class="fa-regular fa-clock"></i>Due Jul 20</span>
+                @if (!Model.IssuedBooks.Any())
+                {
+                    <p class="text-center muted">Abhi koi book issued nahi hai.</p>
+                }
+                else
+                {
+                    <div class="book-grid">
+                        @for (int i = 0; i < Model.IssuedBooks.Count; i++)
+                        {
+                            var book = Model.IssuedBooks[i];
+                            var coverClass = coverClasses[i % coverClasses.Length];
+
+                            <div class="book-card">
+                                <div class="book-cover @coverClass">
+                                    <img src="~/BookImages/@book.BookImageName" alt="@book.BookName"
+                                         style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0;" />
+                                    <span class="status-chip @(book.IsOverdue ? "chip-overdue" : "chip-ontime")">
+                                        @(book.IsOverdue ? "Overdue" : "On Time")
+                                    </span>
+                                </div>
+                                <div class="book-body">
+                                    <p class="book-title">@book.BookName</p>
+                                    <p class="book-author">@book.BookAuthor</p>
+                                    <div class="book-meta">
+                                        <span><i class="fa-regular fa-calendar-check"></i>Issued @book.IssuedDate.ToString("MMM d")</span>
+                                        <span><i class="fa-regular fa-clock"></i>Due @book.DueDate.ToString("MMM d")</span>
+                                    </div>
+                                    @if (book.IsOverdue)
+                                    {
+                                        <p class="book-fine-note">@book.DaysOverdue day(s) overdue — Rs. @book.CurrentFine fine accruing</p>
+                                    }
+
+                                    <form asp-action="ReturnBook" asp-controller="Home" asp-route-id="@book.IssuedBookId" method="post" style="margin-top:12px;">
+                                        <button type="submit" class="pay-btn" style="background:var(--teal); width:100%; border:none; cursor:pointer;">
+                                            Return Book
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
+                        }
                     </div>
-
-                    <div class="book-card">
-                        <div class="book-cover cover-2">
-                            <i class="fa-solid fa-book-open"></i>
-                            <span class="status-chip chip-overdue">Overdue</span>
-                        </div>
-                        <div class="book-body">
-                            <p class="book-title">The Design of Everyday Things</p>
-                            <p class="book-author">Don Norman</p>
-                            <div class="book-meta">
-                                <span><i class="fa-regular fa-calendar-check"></i>Issued Jun 10</span>
-                                <span><i class="fa-regular fa-clock"></i>Due Jul 10</span>
-                            </div>
-                            <p class="book-fine-note">2 days overdue — $1.00/day fine accruing</p>
-                        </div>
-                    </div>
-
-                    <div class="book-card">
-                        <div class="book-cover cover-3">
-                            <i class="fa-solid fa-book-open"></i>
-                            <span class="status-chip chip-ontime">On Time</span>
-                        </div>
-                        <div class="book-body">
-                            <p class="book-title">Eloquent JavaScript</p>
-                            <p class="book-author">Marijn Haverbeke</p>
-                            <div class="book-meta">
-                                <span><i class="fa-regular fa-calendar-check"></i>Issued Jul 1</span>
-                                <span><i class="fa-regular fa-clock"></i>Due Jul 31</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                }
             </div>
         </section>
 
         <!-- ============ BORROW REQUESTS ============ -->
         <section>
             <div class="container">
-                        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Requests</h6>
-            <h1 class="mb-5">Borrow Requests</h1>
-        </div>
-                <div class="table-card">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Book</th>
-                                <th>Requested On</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="book-cell">Adobe Photoshop Handbook</td>
-                                <td class="muted">Jul 9, 2026</td>
-                                <td><span class="badge-pill badge-pending">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td class="book-cell">Digital Marketing Essentials</td>
-                                <td class="muted">Jul 5, 2026</td>
-                                <td><span class="badge-pill badge-approved">Approved</span></td>
-                            </tr>
-                            <tr>
-                                <td class="book-cell">Don't Make Me Think</td>
-                                <td class="muted">Jul 2, 2026</td>
-                                <td><span class="badge-pill badge-rejected">Rejected</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title bg-white text-center text-primary px-3">Requests</h6>
+                    <h1 class="mb-5">Borrow Requests</h1>
                 </div>
+
+                @if (!Model.BorrowRequests.Any())
+                {
+                    <p class="text-center muted">Koi borrow request nahi mili.</p>
+                }
+                else
+                {
+                    <div class="table-card">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Book</th>
+                                    <th>Requested On</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var req in Model.BorrowRequests)
+                                {
+                                    string badgeClass = req.Status switch
+                                    {
+                                        "Pending" => "badge-pending",
+                                        "Approved" => "badge-approved",
+                                        "Rejected" => "badge-rejected",
+                                        _ => "badge-pending"
+                                    };
+
+                                    <tr>
+                                        <td class="book-cell">@req.BookName</td>
+                                        <td class="muted">@req.RequestedOn.ToString("MMM d, yyyy")</td>
+                                        <td><span class="badge-pill @badgeClass">@req.Status</span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
             </div>
         </section>
 
@@ -549,53 +568,51 @@
         <section>
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h6 class="section-title bg-white text-center text-primary px-3">Histor</h6>
+                    <h6 class="section-title bg-white text-center text-primary px-3">History</h6>
                     <h1 class="mb-5">Borrowing History</h1>
                 </div>
 
-                <div class="table-card">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Book</th>
-                                <th>Issued</th>
-                                <th>Returned</th>
-                                <th>Fine Paid</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="book-cell">Introduction to Algorithms</td>
-                                <td class="muted">May 1, 2026</td>
-                                <td class="muted">May 28, 2026</td>
-                                <td class="muted">$0.00</td>
-                                <td><span class="badge-pill badge-ontime">Returned On Time</span></td>
-                            </tr>
-                            <tr>
-                                <td class="book-cell">HTML &amp; CSS Design</td>
-                                <td class="muted">Apr 10, 2026</td>
-                                <td class="muted">Apr 25, 2026</td>
-                                <td class="muted">$0.00</td>
-                                <td><span class="badge-pill badge-ontime">Returned On Time</span></td>
-                            </tr>
-                            <tr>
-                                <td class="book-cell">JavaScript: The Good Parts</td>
-                                <td class="muted">Mar 5, 2026</td>
-                                <td class="muted">Mar 20, 2026</td>
-                                <td class="muted">$2.50</td>
-                                <td><span class="badge-pill badge-late">Returned Late</span></td>
-                            </tr>
-                            <tr>
-                                <td class="book-cell">Grokking Algorithms</td>
-                                <td class="muted">Feb 1, 2026</td>
-                                <td class="muted">Feb 15, 2026</td>
-                                <td class="muted">$0.00</td>
-                                <td><span class="badge-pill badge-ontime">Returned On Time</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                @if (!Model.History.Any())
+                {
+                    <p class="text-center muted">Abhi koi borrowing history nahi hai.</p>
+                }
+                else
+                {
+                    <div class="table-card">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Book</th>
+                                    <th>Issued</th>
+                                    <th>Returned</th>
+                                    <th>Fine Paid</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var row in Model.History)
+                                {
+                                    <tr>
+                                        <td class="book-cell">@row.BookName</td>
+                                        <td class="muted">@row.IssuedDate.ToString("MMM d, yyyy")</td>
+                                        <td class="muted">@(row.ReturnedDate?.ToString("MMM d, yyyy") ?? "-")</td>
+                                        <td class="muted">Rs. @row.FinePaid</td>
+                                        <td>
+                                            @if (row.ReturnedLate)
+                                            {
+                                                <span class="badge-pill badge-late">Returned Late</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge-pill badge-ontime">Returned On Time</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
             </div>
         </section>
 
