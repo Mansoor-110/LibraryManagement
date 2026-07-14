@@ -483,10 +483,10 @@
         }
     }
 </style>
-
+<div class="container mt-3">
 @if (TempData["ExistingMessage"] != null)
 {
-<div class="container mt-3">
+<div class="container mt-5">
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         @TempData["ExistingMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -570,7 +570,7 @@
             </li>
             </ul>
 
-        <form asp-action="AddToCart" asp-controller="Home" method="post">
+        <form asp-action="AddToCart" asp-controller="Home" method="post" id="addToCartForm">
             <input type="hidden" name="id" value="@Model.BookId" />
             <input type="hidden" name="quantity" id="quantityInput" value="1" />
 
@@ -582,21 +582,25 @@
                     <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
                 </div>
             </div>
-
-            <div class="btn-row">
-                <button type="submit" class="btn-primary">
-                    <i class="ti ti-shopping-cart" aria-hidden="true"></i>
-                    Add to Cart
-                </button>
-                <button type="button" class="btn-outline">
-                    <i class="ti ti-bolt" aria-hidden="true"></i>
-                    Buy Now
-                </button>
-                <button type="button" class="btn-wishlist" title="Add to wishlist">
-                    <i class="ti ti-heart" aria-hidden="true"></i>
-                </button>
-            </div>
         </form>
+
+        <form asp-action="AddToWishlist" asp-controller="Home" method="post" id="addToWishlistForm">
+            <input type="hidden" name="id" value="@Model.BookId" />
+        </form>
+
+        <div class="btn-row">
+            <button type="submit" form="addToCartForm" class="btn-primary">
+                <i class="ti ti-shopping-cart" aria-hidden="true"></i>
+                Add to Cart
+            </button>
+            <button type="button" class="btn-outline">
+                <i class="ti ti-bolt" aria-hidden="true"></i>
+                Buy Now
+            </button>
+            <button type="submit" form="addToWishlistForm" class="btn-wishlist" title="Add to wishlist">
+                <i class="ti ti-heart" aria-hidden="true"></i>
+            </button>
+        </div>
 
             <div class="btn-row">
             <a asp-action="BorrowRequest" asp-controller="Home" asp-route-id="@Model.BookId" class="borrow-btn">
@@ -612,7 +616,7 @@
            
         </div>
     </div>
-
+</div>
 
 <script>
     let qty = 1;

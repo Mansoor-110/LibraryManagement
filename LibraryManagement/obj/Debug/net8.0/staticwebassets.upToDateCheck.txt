@@ -4384,6 +4384,7 @@ wwwroot\assets\scss\bootstrap\scss\_transitions.scss
 wwwroot\assets\scss\bootstrap\scss\_type.scss
 wwwroot\assets\scss\bootstrap\scss\_utilities.scss
 wwwroot\assets\scss\bootstrap\scss\_variables.scss
+wwwroot\BookImages\07ceccd6-586a-4b74-83c3-66b79a4a7f9d Ruthless Vows.jpg
 wwwroot\BookImages\1540beea-38b3-46d1-a0a7-1cc57648c8b1 alchemist.jpg
 wwwroot\BookImages\49b98e87-5565-4e82-91f8-acde5bc92da6 Ruthless Vows.jpg
 wwwroot\BookImages\570cef15-cfa0-4738-a4d9-6fe4602441aa License Renewed.jpg

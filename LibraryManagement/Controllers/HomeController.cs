@@ -260,6 +260,10 @@ namespace LibraryManagement.Controllers
         public IActionResult Cart()
         {
             var userId = CurrentUserId;
+            if (userId == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
 
             var cartItems = _context.CartItems
                 .Where(c => c.User_id == userId)
@@ -272,6 +276,7 @@ namespace LibraryManagement.Controllers
                     BookAuthor = c.Book.BookAuthor,
                     BookImageName = c.Book.BookImageName,
                     Quantity = c.Quantity,
+                    BookPrice = c.Book.BookPrice,
                     AddedAt = c.AddedAt
                 })
                 .ToList();
@@ -293,16 +298,8 @@ namespace LibraryManagement.Controllers
 
             if (quantity < 1) quantity = 1;
 
-            if (book.qtyforborrow <= 0)
-            {
-                TempData["ErrorMessage"] = "Ye book abhi available nahi hai.";
-                return RedirectToAction("BooksDetail", new { id });
-            }
 
-            if (quantity > book.qtyforborrow)
-            {
-                quantity = book.qtyforborrow; // available se zyada request nahi ho sakti
-            }
+
 
             bool alreadyInCart = _context.CartItems.Any(c => c.User_id == userId && c.BookId == id);
 
@@ -338,7 +335,243 @@ namespace LibraryManagement.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction(nameof(Cart));
+            return RedirectToAction("Cart","Home");
+        }
+        //==============================WISHLIST===========================
+ 
+public IActionResult Wishlist()
+        {
+            var userId = CurrentUserId;
+            if (userId == 0)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            var wishlistItems = _context.WishlistItems
+                .Where(w => w.User_id == userId)
+                .OrderByDescending(w => w.AddedAt)
+                .Select(w => new WishlistItemVM
+                {
+                    WishlistItemId = w.WishlistItemId,
+                    BookId = w.BookId,
+                    BookName = w.Book.BookName,
+                    BookAuthor = w.Book.BookAuthor,
+                    BookImageName = w.Book.BookImageName,
+                    BookPrice = w.Book.BookPrice,
+                    Quantity = w.Book.quantity,
+                    AddedAt = w.AddedAt
+                })
+                .ToList();
+
+            return View(wishlistItems);
+        }
+
+        [HttpPost]
+        public IActionResult AddToWishlist(int id) // id = BookId
+        {
+            int userId = CurrentUserId;
+            var book = _context.Books.FirstOrDefault(b => b.BookId == id);
+            if (book == null)
+            {
+                TempData["ErrorMessage"] = "Book nahi mili.";
+                return RedirectToAction("BooksDetail", new { id });
+            }
+
+            bool alreadyInWishlist = _context.WishlistItems.Any(w => w.User_id == userId && w.BookId == id);
+            if (alreadyInWishlist)
+            {
+                TempData["ErrorMessage"] = "Already In Wishlist";
+                return RedirectToAction("Wishlist", "Home");
+            }
+
+            _context.WishlistItems.Add(new WishlistItem
+            {
+                User_id = userId,
+                BookId = id
+            });
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = "Book added to your wishlist";
+            return RedirectToAction("Wishlist", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult RemoveFromWishlist(int id) // id = WishlistItemId
+        {
+            int userId = CurrentUserId;
+            var item = _context.WishlistItems.FirstOrDefault(w => w.WishlistItemId == id && w.User_id == userId);
+            if (item != null)
+            {
+                _context.WishlistItems.Remove(item);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Removed from wishlist";
+            }
+            return RedirectToAction("Wishlist", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult MoveToCart(int id) // id = WishlistItemId
+        {
+            int userId = CurrentUserId;
+            var wishItem = _context.WishlistItems.FirstOrDefault(w => w.WishlistItemId == id && w.User_id == userId);
+            if (wishItem != null)
+            {
+                bool alreadyInCart = _context.CartItems.Any(c => c.User_id == userId && c.BookId == wishItem.BookId);
+                if (!alreadyInCart)
+                {
+                    _context.CartItems.Add(new CartItem
+                    {
+                        User_id = userId,
+                        BookId = wishItem.BookId,
+                        Quantity = 1
+                    });
+                }
+                _context.WishlistItems.Remove(wishItem);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Book moved to cart";
+            }
+            return RedirectToAction("Cart", "Home");
+        }
+        //==============================CHECKOUT===========================
+
+        [HttpGet]
+        public IActionResult Checkout()
+        {
+            var userId = CurrentUserId;
+            if (userId == 0)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            var cartItems = _context.CartItems
+                .Where(c => c.User_id == userId)
+                .Select(c => new CartItemVM
+                {
+                    CartItemId = c.CartItemId,
+                    BookId = c.BookId,
+                    BookName = c.Book.BookName,
+                    BookAuthor = c.Book.BookAuthor,
+                    BookImageName = c.Book.BookImageName,
+                    BookPrice = c.Book.BookPrice,
+                    Quantity = c.Quantity,
+                    AddedAt = c.AddedAt
+                })
+                .ToList();
+
+            if (!cartItems.Any())
+            {
+                TempData["ErrorMessage"] = "Aapka cart khaali hai.";
+                return RedirectToAction("Cart", "Home");
+            }
+
+            var vm = new CheckoutVM
+            {
+                CartItems = cartItems,
+                TotalAmount = cartItems.Sum(c => c.BookPrice * c.Quantity)
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult PlaceOrder(CheckoutVM model)
+        {
+            var userId = CurrentUserId;
+            if (userId == 0)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            var cartItems = _context.CartItems
+                .Where(c => c.User_id == userId)
+                .ToList();
+
+            if (!cartItems.Any())
+            {
+                TempData["ErrorMessage"] = "Aapka cart khaali hai.";
+                return RedirectToAction("Cart", "Home");
+            }
+
+            if (string.IsNullOrWhiteSpace(model.FullName) || string.IsNullOrWhiteSpace(model.Phone) ||
+                string.IsNullOrWhiteSpace(model.Address) || string.IsNullOrWhiteSpace(model.City))
+            {
+                TempData["ErrorMessage"] = "Please fill all delivery details.";
+                return RedirectToAction("Checkout", "Home");
+            }
+
+            var order = new Order
+            {
+                User_id = userId,
+                FullName = model.FullName,
+                Phone = model.Phone,
+                Address = model.Address,
+                City = model.City,
+                PaymentMethod = "Cash on Delivery",
+                OrderStatus = "Pending",
+                OrderItems = new List<OrderItem>()
+            };
+
+            int total = 0;
+            foreach (var item in cartItems)
+            {
+                var book = _context.Books.FirstOrDefault(b => b.BookId == item.BookId);
+                if (book == null) continue;
+
+                int lineTotal = book.BookPrice * item.Quantity;
+                total += lineTotal;
+
+                order.OrderItems.Add(new OrderItem
+                {
+                    BookId = book.BookId,
+                    BookName = book.BookName,
+                    BookAuthor = book.BookAuthor,
+                    BookImageName = book.BookImageName,
+                    Quantity = item.Quantity,
+                    Price = book.BookPrice
+                });
+            }
+            order.TotalAmount = total;
+
+            _context.Orders.Add(order);
+            _context.CartItems.RemoveRange(cartItems);
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = "Order placed successfully!";
+            return RedirectToAction("OrderConfirmation", new { id = order.OrderId });
+        }
+
+        [HttpGet]
+        public IActionResult OrderConfirmation(int id)
+        {
+            var userId = CurrentUserId;
+            var order = _context.Orders
+                .Include(o => o.OrderItems)
+                .FirstOrDefault(o => o.OrderId == id && o.User_id == userId);
+
+            if (order == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(order);
+        }
+
+        [HttpGet]
+        public IActionResult MyOrders()
+        {
+            var userId = CurrentUserId;
+            if (userId == 0)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            var orders = _context.Orders
+                .Where(o => o.User_id == userId)
+                .Include(o => o.OrderItems)
+                .OrderByDescending(o => o.CreatedAt)
+                .ToList();
+
+            return View(orders);
         }
 
 

@@ -1,0 +1,293 @@
+﻿@model LibraryManagement.Models.Order
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .confirm-wrap {
+        background: #fff;
+        padding: 40px 40px 80px;
+    }
+
+    .confirm-card {
+        max-width: 700px;
+        margin: 0 auto;
+        border: 1px solid #eee;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .confirm-header {
+        background: #1a2340;
+        color: #fff;
+        text-align: center;
+        padding: 40px 30px 34px;
+    }
+
+    .confirm-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: #00bcd4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 18px;
+        font-size: 30px;
+    }
+
+    .confirm-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .confirm-subtitle {
+        font-size: 13px;
+        color: #b9c0d4;
+    }
+
+    .confirm-body {
+        padding: 30px;
+    }
+
+    .order-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 26px;
+    }
+
+    .order-meta-item {
+        background: #f8f9fb;
+        border-radius: 4px;
+        padding: 14px 16px;
+    }
+
+    .order-meta-label {
+        font-size: 11px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        color: #888;
+        margin-bottom: 4px;
+    }
+
+    .order-meta-value {
+        font-size: 14px;
+        font-weight: 700;
+        color: #1a2340;
+    }
+
+    .status-badge {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 2px;
+        background: #fff3cd;
+        color: #b8860b;
+    }
+
+    .section-heading {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        color: #1a2340;
+        margin-bottom: 14px;
+    }
+
+    .order-item-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 0;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+        .order-item-row:last-child {
+            border-bottom: none;
+        }
+
+    .order-item-img {
+        width: 56px;
+        height: 56px;
+        border-radius: 4px;
+        background: #e8f4f8;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+        .order-item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .order-item-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .order-item-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1a2340;
+    }
+
+    .order-item-author {
+        font-size: 12px;
+        color: #888;
+    }
+
+    .order-item-qty {
+        font-size: 12px;
+        color: #666;
+    }
+
+    .order-item-price {
+        font-size: 14px;
+        font-weight: 700;
+        color: #1a2340;
+    }
+
+    .order-total-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 17px;
+        font-weight: 700;
+        color: #1a2340;
+        padding-top: 16px;
+        margin-top: 10px;
+        border-top: 1px solid #eee;
+    }
+
+    .confirm-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 30px;
+    }
+
+    .btn-primary-c {
+        flex: 1;
+        text-align: center;
+        background: #00bcd4;
+        color: #fff;
+        border: none;
+        padding: 13px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 2px;
+        text-decoration: none;
+        transition: background 0.2s;
+    }
+
+        .btn-primary-c:hover {
+            background: #0097a7;
+            color: #fff;
+        }
+
+    .btn-outline-c {
+        flex: 1;
+        text-align: center;
+        background: transparent;
+        color: #1a2340;
+        border: 1.5px solid #1a2340;
+        padding: 13px 20px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 2px;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+        .btn-outline-c:hover {
+            background: #1a2340;
+            color: #fff;
+        }
+
+    @@media (max-width: 600px) {
+        .confirm-wrap {
+            padding: 30px 20px;
+        }
+
+        .order-meta {
+            grid-template-columns: 1fr;
+        }
+
+        .confirm-actions {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="confirm-wrap">
+    <div class="confirm-card">
+        <div class="confirm-header">
+            <div class="confirm-icon">
+                <i class="ti ti-check" aria-hidden="true"></i>
+            </div>
+            <div class="confirm-title">Order Placed Successfully!</div>
+            <div class="confirm-subtitle">Thank you, @Model.FullName. We'll deliver your books soon.</div>
+        </div>
+
+        <div class="confirm-body">
+            <div class="order-meta">
+                <div class="order-meta-item">
+                    <div class="order-meta-label">Order Number</div>
+                    <div class="order-meta-value">#@Model.OrderId.ToString("D5")</div>
+                </div>
+                <div class="order-meta-item">
+                    <div class="order-meta-label">Order Date</div>
+                    <div class="order-meta-value">@Model.CreatedAt.ToString("dd MMM yyyy, hh:mm tt")</div>
+                </div>
+                <div class="order-meta-item">
+                    <div class="order-meta-label">Payment Method</div>
+                    <div class="order-meta-value">@Model.PaymentMethod</div>
+                </div>
+                <div class="order-meta-item">
+                    <div class="order-meta-label">Status</div>
+                    <span class="status-badge">@Model.OrderStatus</span>
+                </div>
+            </div>
+
+            <div class="order-meta-item" style="margin-bottom:26px;">
+                <div class="order-meta-label">Delivering To</div>
+                <div class="order-meta-value" style="font-weight:600;">
+                    @Model.Address, @Model.City &nbsp;•&nbsp; @Model.Phone
+                </div>
+            </div>
+
+            <div class="section-heading">Items Ordered</div>
+            @foreach (var item in Model.OrderItems)
+            {
+                <div class="order-item-row">
+                    <div class="order-item-img">
+                        <img src="~/BookImages/@item.BookImageName" alt="@item.BookName" />
+                    </div>
+                    <div class="order-item-info">
+                        <div class="order-item-name">@item.BookName</div>
+                        <div class="order-item-author">@item.BookAuthor</div>
+                        <div class="order-item-qty">Qty: @item.Quantity</div>
+                    </div>
+                    <div class="order-item-price">Rs.@(item.Price* item.Quantity)</div>
+                </div>
+            }
+
+            <div class="order-total-row">
+                <span>Total Paid</span>
+                <span>Rs.@Model.TotalAmount</span>
+            </div>
+
+            <div class="confirm-actions">
+                <a asp-action="Index" asp-controller="Home" class="btn-outline-c">Continue Shopping</a>
+                <a asp-action="MyOrders" asp-controller="Home" class="btn-primary-c">View My Orders</a>
+            </div>
+        </div>
+    </div>
+</div>

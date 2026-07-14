@@ -8,6 +8,7 @@
         public string BookAuthor { get; set; }
         public string BookImageName { get; set; }
         public int Quantity { get; set; }
+        public int BookPrice { get; set; }
         public DateTime AddedAt { get; set; }
     }
 }

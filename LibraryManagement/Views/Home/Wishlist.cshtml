@@ -1,0 +1,335 @@
+﻿@model List<LibraryManagement.Models.WishlistItemVM>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .cart-wrap {
+        background: #fff;
+        padding: 40px 40px 80px;
+    }
+
+    .cart-summary-bar {
+        max-width: 1100px;
+        margin: 0 auto 30px;
+        font-size: 14px;
+        color: #444;
+    }
+
+        .cart-summary-bar strong {
+            color: #1a2340;
+        }
+
+    .cart-list {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .cart-item-card {
+        display: flex;
+        align-items: stretch;
+        border: 1px solid #eee;
+        border-radius: 6px;
+        overflow: hidden;
+        background: #fff;
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+        .cart-item-card:hover {
+            box-shadow: 0 8px 24px rgba(26,35,64,0.10);
+            transform: translateY(-2px);
+        }
+
+    .cart-item-img {
+        flex: 0 0 90px;
+        width: 90px;
+        height: 90px;
+        margin: 15px;
+        border-radius: 4px;
+        background: #e8f4f8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+    }
+
+        .cart-item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .cart-stock-badge {
+        display: inline-block;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        padding: 3px 8px;
+        border-radius: 2px;
+        color: #fff;
+        margin-top: 6px;
+    }
+
+        .cart-stock-badge.in {
+            background: #00bcd4;
+        }
+
+        .cart-stock-badge.out {
+            background: #e74c3c;
+        }
+
+    .cart-item-body {
+        flex: 1;
+        padding: 15px 20px 15px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .cart-item-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .cart-item-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1a2340;
+        margin-bottom: 4px;
+    }
+
+    .cart-item-author {
+        font-size: 13px;
+        color: #888;
+    }
+
+    .cart-item-divider {
+        width: 1px;
+        align-self: stretch;
+        background: #f1f1f1;
+        flex: 0 0 1px;
+    }
+
+    .cart-item-price-block {
+        flex: 0 0 auto;
+        text-align: center;
+        padding: 0 20px;
+    }
+
+    .cart-item-price-label {
+        font-size: 11px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #888;
+        margin-bottom: 6px;
+    }
+
+    .cart-item-price {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1a2340;
+    }
+
+    .cart-item-actions {
+        flex: 0 0 auto;
+        display: flex;
+        gap: 10px;
+    }
+
+    .cart-move-btn {
+        white-space: nowrap;
+        padding: 11px 18px;
+        background: #00bcd4;
+        color: #fff;
+        border: 1.5px solid #00bcd4;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 2px;
+        transition: all 0.2s;
+    }
+
+        .cart-move-btn:hover {
+            background: #0097a7;
+            border-color: #0097a7;
+        }
+
+    .cart-remove-btn {
+        white-space: nowrap;
+        padding: 11px 18px;
+        background: transparent;
+        color: #e74c3c;
+        border: 1.5px solid #e74c3c;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 2px;
+        transition: all 0.2s;
+    }
+
+        .cart-remove-btn:hover {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+    .cart-empty {
+        text-align: center;
+        padding: 80px 20px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+        .cart-empty p {
+            font-size: 15px;
+            color: #888;
+            margin-bottom: 24px;
+        }
+
+    .cart-browse-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #1a2340;
+        color: #fff;
+        border: none;
+        padding: 13px 26px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 2px;
+        text-decoration: none;
+        transition: background 0.2s;
+    }
+
+        .cart-browse-btn:hover {
+            background: #00bcd4;
+        }
+
+    @@media (max-width: 800px) {
+        .cart-item-body {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 14px;
+            padding: 15px 15px 15px 0;
+        }
+
+        .cart-item-divider {
+            display: none;
+        }
+
+        .cart-item-price-block {
+            text-align: left;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cart-item-actions {
+            flex-direction: column;
+        }
+
+        .cart-move-btn,
+        .cart-remove-btn {
+            width: 100%;
+        }
+    }
+
+    @@media (max-width: 600px) {
+        .cart-wrap {
+            padding: 30px 20px;
+        }
+    }
+</style>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="container mt-3">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="container mt-3">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    </div>
+}
+
+<div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+    <h6 class="section-title bg-white text-center text-primary px-3">Wishlist</h6>
+    <h1 class="mb-5">Your Wishlist</h1>
+</div>
+
+<div class="cart-wrap">
+
+    @if (!Model.Any())
+    {
+        <div class="cart-empty">
+            <p>Aapki wishlist abhi khaali hai.</p>
+            <a asp-action="Index" asp-controller="Home" class="cart-browse-btn">
+                <i class="ti ti-arrow-left" aria-hidden="true"></i>
+                Browse Books
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="cart-summary-bar">
+            <strong>@Model.Count</strong> item(s) in your wishlist
+        </div>
+
+        <div class="cart-list">
+            @foreach (var item in Model)
+            {
+                <div class="cart-item-card">
+                    <div class="cart-item-img">
+                        <img src="~/BookImages/@item.BookImageName" alt="@item.BookName" />
+                    </div>
+                    <div class="cart-item-body">
+                        <div class="cart-item-info">
+                            <div class="cart-item-title">@item.BookName</div>
+                            <div class="cart-item-author">@item.BookAuthor</div>
+                            @if (item.Quantity > 0)
+                            {
+                                <span class="cart-stock-badge in">In Stock</span>
+                            }
+                            else
+                            {
+                                <span class="cart-stock-badge out">Out of Stock</span>
+                            }
+                        </div>
+
+                        <div class="cart-item-divider"></div>
+
+                        <div class="cart-item-price-block">
+                            <div class="cart-item-price-label">Price</div>
+                            <div class="cart-item-price">Rs.@item.BookPrice</div>
+                        </div>
+
+                        <div class="cart-item-actions">
+                            <form asp-action="MoveToCart" asp-controller="Home" asp-route-id="@item.WishlistItemId" method="post">
+                                <button type="submit" class="cart-move-btn">Move to Cart</button>
+                            </form>
+                            <form asp-action="RemoveFromWishlist" asp-controller="Home" asp-route-id="@item.WishlistItemId" method="post">
+                                <button type="submit" class="cart-remove-btn">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+</div>

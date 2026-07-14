@@ -13,6 +13,9 @@ namespace LibraryManagement.Models
         public DbSet<BorrowRequest> BorrowRequests { get; set; }
         public DbSet<IssuedBook> IssuedBooks{ get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<WishlistItem> WishlistItems { get; set; }
+        public DbSet<OrderItem> OrderItems{ get; set; }
+        public DbSet<Order> Orders{ get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
