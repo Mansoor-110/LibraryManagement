@@ -53,7 +53,7 @@
                                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
                                             <td>@Html.DisplayFor(modelItem => item.Password)</td>
                                             <td>@Html.DisplayFor(modelItem => item.Role)</td>
-                                            <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                                            <td>@item.CreatedAt.ToString("dd-MMMM-yy")</td>
                                             <td>
                                                 <span class="ml-3 me-3">
 

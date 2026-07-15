@@ -172,5 +172,67 @@ namespace LibraryManagement.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        //=========================================Admin ORDERS========================================
+
+        [HttpGet]
+        public IActionResult Orders()
+        {
+            //var role = HttpContext.Session.GetString("Role");
+            //if (role != "Admin")
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+
+            var orders = _context.Orders
+                .Include(o => o.OrderItems)
+                .OrderByDescending(o => o.CreatedAt)
+                .ToList();
+
+            return View(orders);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateOrderStatus(int id, string status)
+        {
+            //var role = HttpContext.Session.GetString("Role");
+            //if (role != "Admin")
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+
+            var order = _context.Orders.FirstOrDefault(o => o.OrderId == id);
+            if (order != null)
+            {
+                order.OrderStatus = status;
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Order status updated successfully";
+            }
+
+            return RedirectToAction("Orders","Admin");
+        }
+
+        [HttpPost]
+        public IActionResult OrderDelete(int id)
+        {
+            //var role = HttpContext.Session.GetString("Role");
+            //if (role != "Admin")
+            //{
+            //    return RedirectToAction("Login", "Home");
+            //}
+
+            var order = _context.Orders
+                .Include(o => o.OrderItems)
+                .FirstOrDefault(o => o.OrderId == id);
+
+            if (order != null)
+            {
+                _context.OrderItems.RemoveRange(order.OrderItems);
+                _context.Orders.Remove(order);
+                _context.SaveChanges();
+                TempData["SuccessMessage"] = "Order deleted successfully";
+            }
+
+            return RedirectToAction("Orders","Admin");
+        }
     }
 }

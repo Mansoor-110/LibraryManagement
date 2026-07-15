@@ -38,7 +38,6 @@
                                         <th>User Id</th>
                                         <th>Username</th>
                                         <th>Email</th>
-                                        <th>Password</th>
                                         <th>Role</th>
                                         <th>Created-At</th>
                                     
@@ -51,9 +50,8 @@
                                             <td>@Html.DisplayFor(modelItem => item.User_id)</td>
                                             <td>@Html.DisplayFor(modelItem => item.User_name)</td>
                                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                            <td>@Html.DisplayFor(modelItem => item.Password)</td>
                                             <td>@Html.DisplayFor(modelItem => item.Role)</td>
-                                            <td>@Html.DisplayFor(modelItem => item.CreatedAt)</td>
+                                            <td>@item.CreatedAt.ToString("dd-MMMM-yy")</td>
                                             
 
                                         </tr>

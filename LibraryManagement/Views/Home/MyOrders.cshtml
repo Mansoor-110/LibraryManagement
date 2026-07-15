@@ -80,6 +80,11 @@
             color: #0d7a3f;
         }
 
+        .status-badge.processing {
+            background: #d6ecff;
+            color: #0b5ed7;
+        }
+
         .status-badge.cancelled {
             background: #fdecea;
             color: #c0392b;
@@ -233,6 +238,7 @@
                 string statusClass = order.OrderStatus.ToLower() switch
                 {
                     "delivered" => "delivered",
+                    "processing" => "processing",
                     "cancelled" => "cancelled",
                     _ => "pending"
                 };

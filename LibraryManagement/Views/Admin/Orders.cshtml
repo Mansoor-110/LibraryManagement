@@ -1,0 +1,208 @@
+﻿@model IEnumerable<LibraryManagement.Models.Order>
+
+@{
+    Layout = "~/views/shared/_adminLayout.cshtml";
+}
+<!--**********************************
+           Content body start
+       ***********************************-->
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row page-titles mx-0">
+            <div class="col-sm-6 p-md-0">
+                <div class="welcome-text">
+                    <h4>Orders</h4>
+                    <p class="mb-0">Manage all customer orders</p>
+                </div>
+            </div>
+            <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="javascript:void(0)">Table</a></li>
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)">Orders</a></li>
+                </ol>
+            </div>
+        </div>
+        <!-- row -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Orders' Data</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table primary-table-bordered table-responsive-sm text-muted">
+                                <thead class="thead-primary">
+                                    <tr class="text-primary">
+                                        <th>Order Id</th>
+                                        <th>Customer</th>
+                                        <th>Phone</th>
+                                        <th>City</th>
+                                        <th>Items</th>
+                                        <th>Total</th>
+                                        <th>Payment</th>
+                                        <th>Status</th>
+                                        <th>Placed On</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>#@item.OrderId.ToString("D5")</td>
+                                            <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.City)</td>
+                                            <td>@item.OrderItems.Count</td>
+                                            <td>Rs.@item.TotalAmount</td>
+                                            <td>@Html.DisplayFor(modelItem => item.PaymentMethod)</td>
+                                            <td>
+                                                @{
+                                                    string badgeClass = item.OrderStatus.ToLower() switch
+                                                    {
+                                                        "delivered" => "badge-success",
+                                                        "cancelled" => "badge-danger",
+                                                        "processing" => "badge-info",
+                                                        _ => "badge-warning"
+                                                    };
+                                                }
+                                                <span class="badge @badgeClass">@item.OrderStatus</span>
+                                            </td>
+                                            <td>@item.CreatedAt.ToString("dd-MMMM-yy")</td>
+                                            <td>
+                                                <span class="ml-3 me-3">
+                                                    <!-- View Items -->
+                                                    <a data-toggle="modal" data-target="#viewItemsModal-@item.OrderId" type="button"><i class="fa fa-eye text-primary" title="View Items"></i></a>
+
+                                                    <div class="modal fade" id="viewItemsModal-@item.OrderId" tabindex="-1" role="dialog" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title text-secondary">Order #@item.OrderId.ToString("D5") Items</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <ul>
+                                                                        <li>Address : @item.Address, @item.City</li>
+                                                                    </ul>
+                                                                    <table class="table table-sm">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Book</th>
+                                                                                <th>Author</th>
+                                                                                <th>Qty</th>
+                                                                                <th>Price</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach (var oi in item.OrderItems)
+                                                                            {
+                                                                                <tr>
+                                                                                    <td>@oi.BookName</td>
+                                                                                    <td>@oi.BookAuthor</td>
+                                                                                    <td>@oi.Quantity</td>
+                                                                                    <td>Rs.@(oi.Price* oi.Quantity)</td>
+                                                                                </tr>
+                                                                            }
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </span>
+
+                                                <span class="ml-3 me-3">
+                                                    <!-- Update Status -->
+                                                    <a data-toggle="modal" data-target="#statusModal-@item.OrderId" type="button"><i class="fa fa-pencil text-info" title="Update Status"></i></a>
+
+                                                    <div class="modal fade" id="statusModal-@item.OrderId" tabindex="-1" role="dialog" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <form asp-action="UpdateOrderStatus" asp-controller="Admin" method="post">
+                                                                    <input type="hidden" name="id" value="@item.OrderId" />
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title text-secondary">Update Order Status</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <select name="status" class="form-control">
+                                                                            <option value="Pending" selected="@(item.OrderStatus == "Pending" ? "selected" : null)">Pending</option>
+                                                                            <option value="Processing" selected="@(item.OrderStatus == "Processing" ? "selected" : null)">Processing</option>
+                                                                            <option value="Delivered" selected="@(item.OrderStatus == "Delivered" ? "selected" : null)">Delivered</option>
+                                                                            <option value="Cancelled" selected="@(item.OrderStatus == "Cancelled" ? "selected" : null)">Cancelled</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                        <button type="submit" class="btn btn-info">Update</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </span>
+
+                                                <span class="ml-3 me-3">
+                                                    <!-- Delete -->
+                                                    <a data-toggle="modal" data-target="#deleteModal-@item.OrderId" type="button"><i class="fa fa-close text-danger" title="Delete"></i></a>
+
+                                                    <div class="modal fade" id="deleteModal-@item.OrderId" tabindex="-1" role="dialog" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title text-secondary">Do you want to delete this order?</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <ul>
+                                                                        <li>Order # : @item.OrderId.ToString("D5")</li>
+                                                                        <li>Customer : @item.FullName</li>
+                                                                        <li>Total : Rs.@item.TotalAmount</li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    <form asp-action="OrderDelete" asp-controller="Admin" asp-route-id="@item.OrderId" method="post" style="display:inline;">
+                                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--**********************************
+    Content body end
+***********************************-->
