@@ -123,14 +123,14 @@
 
 
                                                     <span class="font-weight-bold"> Not-Available</span>
-                                                    <a asp-action="RejectRequest" asp-route-id="@item.borrowRequestid" class="btn btn-danger" style="width: 90px;">Reject </a>
+                                                    <a asp-action="RejectRequest" asp-controller="Librarian" asp-route-id="@item.borrowRequestid" class="btn btn-danger" style="width: 90px;">Reject </a>
 
 
                                                 } else if (item.Status == "Pending"){
 
-                                                    <a asp-action="ApproveRequest" asp-route-id="@item.borrowRequestid" class="btn btn-outline-success mb-2" style="width: 90px;">Approve</a>
+                                                    <a asp-action="ApproveRequest" asp-controller="Librarian" asp-route-id="@item.borrowRequestid" class="btn btn-outline-success mb-2" style="width: 90px;">Approve</a>
 
-                                                    <a asp-action="RejectRequest" asp-route-id="@item.borrowRequestid" class="btn btn-danger" style="width: 90px;">Reject </a>
+                                                    <a asp-action="RejectRequest" asp-controller="Librarian" asp-route-id="@item.borrowRequestid" class="btn btn-danger" style="width: 90px;">Reject </a>
                                                 } 
                                                 
                                                  

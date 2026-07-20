@@ -1,3 +1,4 @@
+using LibraryManagement.Filters;
 using LibraryManagement.Helpers;
 using LibraryManagement.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ namespace LibraryManagement.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
         }
         //===============================================BOOKS================================================
@@ -93,7 +95,7 @@ namespace LibraryManagement.Controllers
         //==========================================PROFILE======================================
         public IActionResult Profile()
         {
-            int userId = HttpContext.Session.GetInt32("UserId") ?? 0; // apne login/session ke hisab se adjust karo
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0; 
 
             var user = _context.Users.FirstOrDefault(u => u.User_id == userId);
             if (user == null) return NotFound();

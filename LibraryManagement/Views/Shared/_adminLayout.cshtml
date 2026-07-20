@@ -199,10 +199,13 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a asp-action="AddBook">Add Book</a></li>
-                            <li><a asp-action="ViewBook">View Book</a></li>
+                            <li><a asp-action="ViewBook">Books</a></li>
+                            <li><a asp-action="BorrowRequests" asp-controller="Admin">Borrow Requests</a></li>
+                            <li><a asp-action="IssuedBook" asp-controller="Admin">Issued Books</a></li>
 
                         </ul>
                     </li>
+                    <li class="nav-label first">Orders</li>
                     <li>
                         <a asp-action="Orders" asp-controller="Admin" aria-expanded="false">
                             <i class="fas fa-box"></i><span class="nav-text">Orders</span>

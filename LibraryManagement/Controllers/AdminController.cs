@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using LibraryManagement.Helpers;
+using LibraryManagement.Filters;
 
 namespace LibraryManagement.Controllers
-{   
+{
+    [RoleAuthorize("Admin")]
     public class AdminController : Controller
     {
         private readonly AppDbContext _context;
@@ -17,7 +20,34 @@ namespace LibraryManagement.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var totalOrders = _context.Orders.Count();
+
+            var vm = new DashboardVM
+            {
+                TotalUsers = _context.Users.Count(),
+                TotalBooks = _context.Books.Count(),
+                TotalOrders = totalOrders,
+                TotalRevenue = _context.Orders.Sum(o => (int?)o.TotalAmount) ?? 0,
+
+                PendingOrders = _context.Orders.Count(o => o.OrderStatus == "Pending"),
+                ProcessingOrders = _context.Orders.Count(o => o.OrderStatus == "Processing"),
+                DeliveredOrders = _context.Orders.Count(o => o.OrderStatus == "Delivered"),
+                CancelledOrders = _context.Orders.Count(o => o.OrderStatus == "Cancelled"),
+
+                RecentOrders = _context.Orders
+                    .Include(o => o.OrderItems)
+                    .OrderByDescending(o => o.CreatedAt)
+                    .Take(6)
+                    .ToList(),
+
+                LowStockBooks = _context.Books
+                    .Where(b => b.quantity <= 5)
+                    .OrderBy(b => b.quantity)
+                    .Take(5)
+                    .ToList()
+            };
+
+            return View(vm);
         }
         //============================================Users==========================================================
         public IActionResult Users()
@@ -214,11 +244,11 @@ namespace LibraryManagement.Controllers
         [HttpPost]
         public IActionResult OrderDelete(int id)
         {
-            //var role = HttpContext.Session.GetString("Role");
-            //if (role != "Admin")
-            //{
-            //    return RedirectToAction("Login", "Home");
-            //}
+            var role = HttpContext.Session.GetString("Role");
+            if (role != "Admin")
+            {
+                return RedirectToAction("Login", "Home");
+            }
 
             var order = _context.Orders
                 .Include(o => o.OrderItems)
@@ -233,6 +263,56 @@ namespace LibraryManagement.Controllers
             }
 
             return RedirectToAction("Orders","Admin");
+        }
+        //=========================================Admin - Borrow Requests (Read Only)========================================
+
+        [HttpGet]
+        public IActionResult BorrowRequests()
+        {
+            var data = _context.BorrowRequests
+                .Include(b => b.Book)
+                .Include(b => b.User)
+                .OrderByDescending(b => b.CreatedAt)
+                .Select(b => new BorrowRequestVM
+                {
+                    borrowRequestid = b.borrowRequestid,
+                    BookName = b.Book.BookName,
+                    BookImageName = b.Book.BookImageName,
+                    qtyforborrow = b.Book.qtyforborrow,
+                    User_name = b.User.User_name,
+                    Email = b.User.Email,
+                    CreatedAt = b.CreatedAt,
+                    Status = b.Status,
+                }).ToList();
+
+            return View(data);
+        }
+
+        //=========================================Admin - Issued Books (Read Only)========================================
+
+        [HttpGet]
+        public IActionResult IssuedBook()
+        {
+            var data = _context.IssuedBooks
+                .Select(b => new IssuedBookVM
+                {
+                    issuedBookId = b.issuedBookId,
+                    BookName = b.BorrowRequest.Book.BookName,
+                    BookImageName = b.BorrowRequest.Book.BookImageName,
+                    User_name = b.BorrowRequest.User.User_name,
+                    Email = b.BorrowRequest.User.Email,
+                    issuedDate = b.issuedDate,
+                    returnDate = b.returnDate,
+                    fineAmount = b.fineAmount,
+                    status = b.status,
+                }).ToList();
+
+            foreach (var item in data)
+            {
+                item.fineAmount = FineCalculator.Calculate(item.returnDate, item.status, item.fineAmount);
+            }
+
+            return View(data);
         }
     }
 }
