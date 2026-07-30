@@ -1,18 +1,14 @@
-﻿@model LibraryManagement.Models.Book;
+﻿@model LibraryManagement.Models.Book
+
+@{
+    ViewData["Title"] = "Book Details";
+}
+
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-
-    body {
-        font-family: 'Segoe UI', sans-serif;
-    }
-
+    /* Scoped Detail Page Styles (No Global Overrides) */
     .page-wrap {
         background: #fff;
-        padding: 40px 40px;
+        padding: 40px 20px;
     }
 
     .section-label {
@@ -41,39 +37,45 @@
         font-size: 28px;
         font-weight: 700;
         color: #1a2340;
-        margin-bottom: 50px;
+        margin-bottom: 40px;
     }
 
     .detail-grid {
         display: grid;
         grid-template-columns: 1fr 1.4fr;
-        gap: 50px;
-        max-width: 860px;
+        gap: 40px;
+        max-width: 960px;
         margin: 0 auto;
-        align-items:center;
+        align-items: center;
     }
 
     .img-col {
         position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
     .main-img {
-        width: 350px;
-        border-radius: 4px;
+        width: 100%;
+        max-width: 350px;
+        border-radius: 6px;
         overflow: hidden;
         background: #e8f4f8;
-        /* aspect-ratio: 3/4;  */
         display: flex;
         align-items: center;
         justify-content: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
 
         .main-img img {
             width: 100%;
-            height: 100%;
+            height: auto;
+            object-fit: cover;
+            display: block;
         }
 
-    .badge {
+    .badge-bestseller {
         position: absolute;
         top: 16px;
         left: 16px;
@@ -85,49 +87,11 @@
         text-transform: uppercase;
         padding: 5px 12px;
         border-radius: 2px;
+        z-index: 2;
     }
-
-    .thumb-row {
-        display: flex;
-        gap: 10px;
-        margin-top: 12px;
-    }
-
-    .thumb {
-        flex: 1;
-        aspect-ratio: 1;
-        border-radius: 4px;
-        overflow: hidden;
-        background: #dce8f0;
-        border: 2px solid transparent;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: border-color 0.2s;
-    }
-
-        .thumb.active {
-            border-color: #00bcd4;
-        }
-
-        .thumb svg {
-            width: 70%;
-            height: 70%;
-            opacity: 0.5;
-        }
 
     .info-col {
         padding-top: 4px;
-    }
-
-    .book-category {
-        font-size: 12px;
-        font-weight: 600;
-        color: #00bcd4;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        margin-bottom: 10px;
     }
 
     .book-title {
@@ -195,7 +159,7 @@
         color: #555;
         line-height: 1.8;
         margin-bottom: 22px;
-    }   
+    }
 
     .meta-list {
         list-style: none;
@@ -203,6 +167,7 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
+        padding: 0;
     }
 
         .meta-list li {
@@ -234,11 +199,10 @@
     }
 
     .qty-label {
-        font-size: 13px;
+        font-size: 12px;
         color: #888;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        font-size: 12px;
     }
 
     .qty-ctrl {
@@ -276,78 +240,67 @@
         color: #1a2340;
     }
 
-    .btn-row {
+    /* Isolated Button Container */
+    .btn-row-group {
         display: flex;
+        flex-direction: column;
         gap: 12px;
         margin-bottom: 22px;
     }
 
-    .btn-primary {
+    .btn-row {
+        display: flex;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .btn-detail-cart {
         flex: 1;
         background: #00bcd4;
         color: #fff;
-        border: none;
-        padding: 13px 20px;
+        border: 1.5px solid #00bcd4;
+        padding: 12px 20px;
         font-size: 14px;
         font-weight: 600;
         letter-spacing: 0.5px;
         cursor: pointer;
-        border-radius: 2px;
+        border-radius: 4px;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
-        transition: background 0.2s;
+        transition: all 0.2s;
+        text-decoration: none;
     }
 
-    
-
-        .btn-primary:hover {
+        .btn-detail-cart:hover {
             background: #0097a7;
+            border-color: #0097a7;
+            color: #fff;
         }
 
-    .borrow-btn{
-        flex: 1;
+    .borrow-btn {
+        width: 100%;
         background: #1a2340;
         color: #fff;
-        border: none;
-        padding: 13px 20px;
+        border: 1.5px solid #1a2340;
+        padding: 12px 20px;
         font-size: 14px;
         font-weight: 600;
         letter-spacing: 0.5px;
         cursor: pointer;
-        border-radius: 2px;
+        border-radius: 4px;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
-        transition: background 0.2s;
-    }
-    .borrow-btn:hover{
-        background: transparent;
-        color: #1a2340;
-        border: 0.5px solid #1a2340;
         transition: all 0.2s;
+        text-decoration: none;
     }
 
-    .btn-outline {
-        padding: 13px 18px;
-        background: transparent;
-        color: #1a2340;
-        border: 1.5px solid #1a2340;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        border-radius: 2px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        transition: all 0.2s;
-    }
-
-        .btn-outline:hover {
-            background: #1a2340;
-            color: #fff;
+        .borrow-btn:hover {
+            background: transparent;
+            color: #1a2340;
         }
 
     .btn-wishlist {
@@ -355,7 +308,7 @@
         height: 46px;
         background: transparent;
         border: 1.5px solid #ddd;
-        border-radius: 2px;
+        border-radius: 4px;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -363,6 +316,7 @@
         color: #888;
         font-size: 18px;
         transition: all 0.2s;
+        flex-shrink: 0;
     }
 
         .btn-wishlist:hover {
@@ -370,145 +324,54 @@
             color: #e91e63;
         }
 
-    .tags-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-bottom: 0;
-    }
-
-    .tag-label {
-        font-size: 12px;
-        color: #888;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .tag {
-        font-size: 12px;
-        color: #1a2340;
-        border: 1px solid #ddd;
-        padding: 3px 10px;
-        border-radius: 2px;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-        .tag:hover {
-            border-color: #00bcd4;
-            color: #00bcd4;
-        }
-
-    .share-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 14px;
-    }
-
-    .share-label {
-        font-size: 12px;
-        color: #888;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .social-btn {
-        width: 32px;
-        height: 32px;
-        border: 1px solid #ddd;
-        border-radius: 50%;
-        background: transparent;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        color: #555;
-        font-size: 14px;
-        transition: all 0.2s;
-    }
-
-        .social-btn:hover {
-            background: #00bcd4;
-            border-color: #00bcd4;
-            color: #fff;
-        }
-
-    .guarantee-strip {
-        display: flex;
-        gap: 20px;
-        margin: 40px auto 0;
-        max-width: 860px;
-        border-top: 1px solid #eee;
-        padding-top: 28px;
-    }
-
-    .guarantee-item {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        flex: 1;
-    }
-
-    .g-icon {
-        font-size: 26px;
-        color: #00bcd4;
-        flex-shrink: 0;
-        margin-top: 2px;
-    }
-
-    .g-title {
-        font-size: 13px;
-        font-weight: 600;
-        color: #1a2340;
-        margin-bottom: 2px;
-    }
-
-    .g-text {
-        font-size: 12px;
-        color: #888;
-        line-height: 1.5;
-    }
-
-    @@media (max-width: 600px) {
+    @@media (max-width: 768px) {
         .detail-grid {
             grid-template-columns: 1fr;
             gap: 30px;
         }
 
-        .guarantee-strip {
-            flex-direction: column;
-            gap: 16px;
+        .main-img {
+            max-width: 100%;
+        }
+
+        .book-title {
+            font-size: 22px;
+        }
+
+        .btn-row-group {
+            gap: 10px;
+        }
+
+        .page-wrap {
+            padding: 20px 15px;
         }
     }
 </style>
-<div class="container mt-3">
-@if (TempData["ExistingMessage"] != null)
-{
-<div class="container mt-5">
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @TempData["ExistingMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-</div>
-}
+
+<div class="page-wrap container mt-3">
+    @if (TempData["ExistingMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["ExistingMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
     <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
         <h6 class="section-title bg-white text-center text-primary px-3">Books</h6>
         <h1 class="mb-5">Wide Range Of Books!</h1>
     </div>
+
     <div class="detail-grid">
-        <!-- Left: image -->
+        <!-- Left Image -->
         <div class="img-col">
             <div class="main-img">
-              <img   src ="~/BookImages/@Model.BookImageName" >  
-              
+                <img src="~/BookImages/@Model.BookImageName" alt="@Model.BookName" />
             </div>
-            <span class="badge">Bestseller</span>
-            
+            <span class="badge-bestseller">Bestseller</span>
         </div>
 
-        <!-- Right: info -->
+        <!-- Right Info -->
         <div class="info-col">
             <h1 class="book-title">@Model.BookName</h1>
 
@@ -519,21 +382,19 @@
 
             <div class="price-row">
                 <span class="price-now">Rs.@Model.BookPrice</span>
-                
-               @{
-                  int price = Model.BookPrice;
-                  double percent = 25;
-                  int oldPrice = (int)(price + (price * percent / 100));
-               }
-                <span class="price-old"> @oldPrice</span>
-                
+                @{
+                    int price = Model.BookPrice;
+                    double percent = 25;
+                    int oldPrice = (int)(price + (price * percent / 100));
+                }
+                <span class="price-old">Rs.@oldPrice</span>
                 <span class="price-save">Save 25%</span>
             </div>
 
             <hr class="divider">
 
             <p class="desc">
-              @Model.BookDescription
+                @Model.BookDescription
             </p>
 
             <ul class="meta-list">
@@ -542,11 +403,10 @@
                     <span class="label">Author</span>
                     <strong>@Model.BookAuthor</strong>
                 </li>
-                
                 <li>
                     <i class="ti ti-file-text meta-icon" aria-hidden="true"></i>
                     <span class="label">Pages</span>
-                 @Model.BookPages
+                    @Model.BookPages
                 </li>
                 <li>
                     <i class="ti ti-language meta-icon" aria-hidden="true"></i>
@@ -556,64 +416,57 @@
                 <li>
                     <i class="ti ti-check meta-icon" aria-hidden="true"></i>
                     <span class="label">Stock</span>
-                @if (Model.quantity > 0)
-                {
-                    
-                    <span style="color:#00bcd4;font-weight:600;">In Stock</span>
-                }
-                else
-                {
-                    <span style="color:#00bcd4;font-weight:600;">Out OF Stock</span>
-                    
-                }
-                
-            </li>
+                    @if (Model.quantity > 0)
+                    {
+                        <span style="color:#00bcd4; font-weight:600;">In Stock</span>
+                    }
+                    else
+                    {
+                        <span style="color:#e91e63; font-weight:600;">Out Of Stock</span>
+                    }
+                </li>
             </ul>
 
-        <form asp-action="AddToCart" asp-controller="Home" method="post" id="addToCartForm">
-            <input type="hidden" name="id" value="@Model.BookId" />
-            <input type="hidden" name="quantity" id="quantityInput" value="1" />
+            <!-- Forms & Actions -->
+            <form asp-action="AddToCart" asp-controller="Home" method="post" id="addToCartForm">
+                <input type="hidden" name="id" value="@Model.BookId" />
+                <input type="hidden" name="quantity" id="quantityInput" value="1" />
 
-            <div class="qty-row">
-                <span class="qty-label">Quantity</span>
-                <div class="qty-ctrl">
-                    <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
-                    <span class="qty-val" id="qty">1</span>
-                    <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
+                <div class="qty-row">
+                    <span class="qty-label">Quantity</span>
+                    <div class="qty-ctrl">
+                        <button type="button" class="qty-btn" onclick="changeQty(-1)">−</button>
+                        <span class="qty-val" id="qty">1</span>
+                        <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
 
-        <form asp-action="AddToWishlist" asp-controller="Home" method="post" id="addToWishlistForm">
-            <input type="hidden" name="id" value="@Model.BookId" />
-        </form>
+            <form asp-action="AddToWishlist" asp-controller="Home" method="post" id="addToWishlistForm">
+                <input type="hidden" name="id" value="@Model.BookId" />
+            </form>
 
-        <div class="btn-row">
-            <button type="submit" form="addToCartForm" class="btn-primary">
-                <i class="ti ti-shopping-cart" aria-hidden="true"></i>
-                Add to Cart
-            </button>
-            <button type="button" class="btn-outline">
-                <i class="ti ti-bolt" aria-hidden="true"></i>
-                Buy Now
-            </button>
-            <button type="submit" form="addToWishlistForm" class="btn-wishlist" title="Add to wishlist">
-                <i class="ti ti-heart" aria-hidden="true"></i>
-            </button>
-        </div>
+            <div class="btn-row-group">
+                <div class="btn-row">
+                    <button type="submit" form="addToCartForm" class="btn-detail-cart">
+                        <i class="ti ti-shopping-cart" aria-hidden="true"></i>
+                        Add to Cart
+                    </button>
 
-            <div class="btn-row">
-            <a asp-action="BorrowRequest" asp-controller="Home" asp-route-id="@Model.BookId" class="borrow-btn">
-                <i class="ti ti-arrow-bear-left"></i>
-                Borrow
-            </a>
+                    <button type="submit" form="addToWishlistForm" class="btn-wishlist" title="Add to wishlist">
+                        <i class="ti ti-heart" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="btn-row">
+                    <a asp-action="BorrowRequest" asp-controller="Home" asp-route-id="@Model.BookId" class="borrow-btn">
+                        <i class="ti ti-arrow-bear-left" aria-hidden="true"></i>
+                        Borrow
+                    </a>
+                </div>
             </div>
 
             <hr class="divider">
-
-            
-
-           
         </div>
     </div>
 </div>
@@ -622,8 +475,8 @@
     let qty = 1;
 
     function changeQty(d) {
-      
-      qty = Math.max(1, qty + d);
-      document.getElementById('qty').textContent = qty;
+        qty = Math.max(1, qty + d);
+        document.getElementById('qty').textContent = qty;
+        document.getElementById('quantityInput').value = qty;
     }
 </script>

@@ -4,8 +4,8 @@
 }
 
 <!--**********************************
-           Content body start
-       ***********************************-->
+            Content body start
+***********************************-->
 <style>
     :root {
         --teal: #1cb8ba;
@@ -54,6 +54,7 @@
         color: var(--red);
     }
 </style>
+
 <div class="content-body">
     <div class="container-fluid">
         <div class="row page-titles mx-0">
@@ -79,19 +80,18 @@
                         <h4 class="card-title">Issued Books</h4>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table primary-table-bordered table-responsive-sm text-muted">
+                        <div class="table-responsive w-100">
+                            <table class="table primary-table-bordered text-muted align-middle text-nowrap">
                                 <thead class="thead-primary">
                                     <tr class="text-primary">
-                                        <th width="60px">Issued Id</th>
-                                        <th width="120px">Book Image</th>
-                                        <th width="150px">Book Name</th>
-                                        <th width="200px">Requested By</th>
-                                        <th width="110px">Issued Date</th>
-                                        <th width="110px">Return Date</th>
-                                        <th width="70px">Fine Amount</th>
-                                        <th width="90px">Status</th>
-                                     
+                                        <th style="min-width: 60px;">Issued Id</th>
+                                        <th style="min-width: 100px;">Book Image</th>
+                                        <th style="min-width: 150px;">Book Name</th>
+                                        <th style="min-width: 200px;">Requested By</th>
+                                        <th style="min-width: 110px;">Issued Date</th>
+                                        <th style="min-width: 110px;">Return Date</th>
+                                        <th style="min-width: 90px;">Fine Amount</th>
+                                        <th style="min-width: 90px;">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -99,7 +99,9 @@
                                     {
                                         <tr>
                                             <td>@item.issuedBookId</td>
-                                            <td><img src="~/BookImages/@item.BookImageName" width="100" /></td>
+                                            <td>
+                                                <img src="~/BookImages/@item.BookImageName" class="img-fluid rounded" style="max-width: 60px; height: auto;" alt="@item.BookName" />
+                                            </td>
                                             <td>@item.BookName</td>
                                             <td>
                                                 <span class="font-weight-bold">Name:</span> @item.User_name <br>
@@ -107,7 +109,6 @@
                                             </td>
                                             <td>@item.issuedDate.ToString("dd-MMMM-yy")</td>
                                             <td>@item.returnDate.ToString("dd-MMMM-yy")</td>
-
                                             <td>@item.fineAmount</td>
                                             @if (item.status == "Issued")
                                             {
@@ -116,17 +117,11 @@
                                             else if (item.status == "Returned")
                                             {
                                                 <td><span class="badge-pill badge-approved">@item.status</span></td>
-
                                             }
                                             else
                                             {
                                                 <td><span class="badge-pill badge-rejected">@item.status</span></td>
                                             }
-                                           
-
-
-
-                                           
                                         </tr>
                                     }
                                 </tbody>

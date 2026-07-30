@@ -3,17 +3,17 @@
 
 }
 @model User;
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
     .register-wrapper {
-        min-height: 80vh;
+        min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 60px 16px;
+        padding: 40px 16px;
         background: #f5f7fa;
     }
 
@@ -110,14 +110,6 @@
                 color: #c8c8c8;
             }
 
-            .register-input-wrap input.error {
-                border-color: #e24b4a;
-            }
-
-            .register-input-wrap input.valid {
-                border-color: #1abdb5;
-            }
-
     .register-toggle-eye {
         position: absolute;
         right: 11px;
@@ -132,27 +124,6 @@
         .register-toggle-eye:hover {
             color: #1abdb5;
         }
-
-    .register-strength-bar {
-        display: flex;
-        gap: 4px;
-        margin-top: 6px;
-    }
-
-    .register-strength-seg {
-        height: 3px;
-        flex: 1;
-        border-radius: 2px;
-        background: #eee;
-        transition: background 0.3s;
-    }
-
-    .register-hint {
-        font-size: 11px;
-        color: #aaa;
-        margin-top: 4px;
-        min-height: 16px;
-    }
 
     .register-terms-row {
         display: flex;
@@ -212,64 +183,6 @@
             transform: scale(0.99);
         }
 
-    .register-divider {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin: 18px 0;
-    }
-
-        .register-divider::before,
-        .register-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #eee;
-        }
-
-        .register-divider span {
-            font-size: 11px;
-            color: #bbb;
-            white-space: nowrap;
-        }
-
-    .register-social-row {
-        display: flex;
-        gap: 10px;
-    }
-
-    .register-social-btn {
-        flex: 1;
-        padding: 9px 6px;
-        border: 1.5px solid #e8e8e8;
-        border-radius: 6px;
-        background: #fff;
-        cursor: pointer;
-        font-size: 13px;
-        font-family: inherit;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        color: #555;
-        transition: border-color 0.2s, background 0.2s;
-        white-space: nowrap;
-    }
-
-        .register-social-btn:hover {
-            border-color: #1abdb5;
-            background: #f0fffe;
-        }
-
-    .register-fb {
-        color: #1877f2;
-    }
-
-    .register-ggl {
-        color: #ea4335;
-    }
-
     .register-login-link {
         text-align: center;
         margin-top: 18px;
@@ -287,14 +200,30 @@
                 text-decoration: underline;
             }
 
-    @@media (max-width: 480px) {
-        .register-form-row {
-            grid-template-columns: 1fr;
-        }
+    @@media (max-width: 576px) {
+        .register-wrapper
 
-        .register-card {
-            padding: 28px 18px;
-        }
+    {
+        padding: 20px 12px;
+    }
+
+    .register-card {
+        padding: 28px 20px;
+        border-radius: 8px;
+    }
+
+    .register-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .register-card .card-header h2 {
+        font-size: 20px;
+    }
+
+    .register-card .card-header p {
+        font-size: 12px;
+    }
+
     }
 </style>
 
@@ -317,8 +246,6 @@
 
         <form asp-action="Login" asp-controller="Home" method="post">
 
-        
-
             <div class="register-form-group">
                 <label for="email">Email Address</label>
                 <div class="register-input-wrap">
@@ -331,19 +258,10 @@
                 <label for="password">Password</label>
                 <div class="register-input-wrap">
                     <i class="fas fa-lock icon"></i>
-                    <input type="password" id="password" asp-for="Password" placeholder="Create a strong password" oninput="checkStrength(this.value)" />
+                    <input type="password" id="password" asp-for="Password" placeholder="Create a strong password" />
                     <i class="fas fa-eye register-toggle-eye" onclick="togglePwd('password', this)"></i>
                 </div>
-                <div class="register-strength-bar">
-                    <div class="register-strength-seg" id="s1"></div>
-                    <div class="register-strength-seg" id="s2"></div>
-                    <div class="register-strength-seg" id="s3"></div>
-                    <div class="register-strength-seg" id="s4"></div>
-                </div>
-                <div class="register-hint" id="slabel"></div>
             </div>
-
-           
 
             <div class="register-terms-row">
                 <input type="checkbox" id="terms" />
@@ -351,14 +269,6 @@
             </div>
 
             <input class="register-submit-btn" type="submit" value="Login">
-
-
-
-            <div class="register-divider"><span>or sign up with</span></div>
-            <div class="register-social-row">
-                <button class="register-social-btn"><i class="fab fa-facebook-f register-fb"></i> Facebook</button>
-                <button class="register-social-btn"><i class="fab fa-google register-ggl"></i> Google</button>
-            </div>
 
             <div class="register-login-link">Don't have an account? <a asp-action="Register">Register</a></div>
 
@@ -372,50 +282,5 @@
       inp.type = inp.type === 'password' ? 'text' : 'password';
       icon.classList.toggle('fa-eye');
       icon.classList.toggle('fa-eye-slash');
-    }
-
-    function checkStrength(val) {
-      const segs = ['s1','s2','s3','s4'].map(id => document.getElementById(id));
-      const label = document.getElementById('slabel');
-      let score = 0;
-      if (val.length >= 8) score++;
-      if (/[A-Z]/.test(val)) score++;
-      if (/[0-9]/.test(val)) score++;
-      if (/[^A-Za-z0-9]/.test(val)) score++;
-      const colors = ['#e24b4a','#ef9f27','#f0c330','#1abdb5'];
-      const labels = ['','Weak','Fair','Good','Strong'];
-      segs.forEach((s, i) => s.style.background = i < score ? colors[score-1] : '#eee');
-      label.textContent = val.length ? labels[score] : '';
-      label.style.color = score > 0 ? colors[score-1] : '#aaa';
-      checkMatch();
-    }
-
-    function checkMatch() {
-      const pwd = document.getElementById('password').value;
-      const conf = document.getElementById('confirm').value;
-      const confInput = document.getElementById('confirm');
-      const lbl = document.getElementById('matchlabel');
-      if (!conf) { lbl.textContent = ''; confInput.className = ''; return; }
-      if (pwd === conf) {
-        lbl.textContent = '✓ Passwords match';
-        lbl.style.color = '#1abdb5';
-        confInput.className = 'valid';
-      } else {
-        lbl.textContent = '✗ Passwords do not match';
-        lbl.style.color = '#e24b4a';
-        confInput.className = 'error';
-      }
-    }
-
-    function handleSubmit() {
-      const fname = document.getElementById('fname').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const pwd = document.getElementById('password').value;
-      const conf = document.getElementById('confirm').value;
-      const terms = document.getElementById('terms').checked;
-      if (!fname || !email || !pwd || !conf) { alert('Please fill in all fields.'); return; }
-      if (pwd !== conf) { alert('Passwords do not match.'); return; }
-      if (!terms) { alert('Please accept the Terms & Conditions.'); return; }
-      alert('Account created successfully! Welcome to eLEARNING 🎓');
     }
 </script>

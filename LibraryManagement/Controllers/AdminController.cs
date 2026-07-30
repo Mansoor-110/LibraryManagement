@@ -50,8 +50,14 @@ namespace LibraryManagement.Controllers
             return View(vm);
         }
         //============================================Users==========================================================
+   
         public IActionResult Users()
         {
+            var role = HttpContext.Session.GetString("Role");
+            if(role!= "Admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var data = _context.Users.ToList();
             return View(data);
         }
@@ -64,6 +70,12 @@ namespace LibraryManagement.Controllers
         [HttpPost]
         public IActionResult UserEdit(int id, User obj)
         {
+            int userId = HttpContext.Session.GetInt32("UserId").Value;
+            if(obj.User_id == 1)
+            {
+                TempData["ErrorMessage"] = "You have no rights to edit this user!!";
+                return RedirectToAction("Users", "Admin");
+            }
             _context.Users.Update(obj);
             _context.SaveChanges();
             return RedirectToAction("Users","Admin");
@@ -72,8 +84,18 @@ namespace LibraryManagement.Controllers
         //-----Delete
         public IActionResult UserDelete(int id)
         {
+            int userId = HttpContext.Session.GetInt32("UserId").Value;
             var obj = _context.Users.Find(id);
-            _context.Remove(obj);
+            if (userId == id )
+            {
+                TempData["ErrorMessage"] = "You Cannot Delete Your Ownself!";
+                return RedirectToAction("Users", "Admin");
+            } else if(obj.User_id == 1)
+            {
+                TempData["ErrorMessage"] = "You have no rights to delete this user!!";
+                return RedirectToAction("Users", "Admin");
+            }
+                _context.Remove(obj);
             _context.SaveChanges();
             return RedirectToAction("Users","Admin");
         }
@@ -314,5 +336,40 @@ namespace LibraryManagement.Controllers
 
             return View(data);
         }
+        //=========================================Admin - Contact Messages=======================================
+        public IActionResult ContactMessages()
+        {
+            var messages = _context.ContactMessages
+                .OrderByDescending(c => c.SubmittedAt)
+                .ToList();
+
+            return View(messages);
+        }
+
+        [HttpPost]
+        public IActionResult MarkResolved(int id)
+        {
+            var message = _context.ContactMessages.FirstOrDefault(c => c.ContactMessageId == id);
+            if (message != null)
+            {
+                message.IsResolved = true;
+                _context.SaveChanges();
+            }
+            return RedirectToAction(nameof(ContactMessages));
+        }
+
+        [HttpPost]
+        public IActionResult DeleteMessage(int id)
+        {
+            var message = _context.ContactMessages.FirstOrDefault(c => c.ContactMessageId == id);
+            if (message != null)
+            {
+                _context.ContactMessages.Remove(message);
+                _context.SaveChanges();
+            }
+            return RedirectToAction(nameof(ContactMessages));
+        }
+
+
     }
 }

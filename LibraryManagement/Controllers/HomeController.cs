@@ -20,8 +20,24 @@ namespace LibraryManagement.Controllers
 
         public IActionResult Index()
         {
-            
-            return View();
+            var featuredBooks = _context.Books
+                .Where(b => b.IsActive)
+                .OrderByDescending(b => b.BookId)   // sabse naye books upar
+                .Take(4)
+                .Select(b => new FeaturedBookVM
+                {
+                    BookId = b.BookId,
+                    BookName = b.BookName,
+                    BookAuthor = b.BookAuthor,
+                    BookImageName = b.BookImageName,
+                    BookPrice = b.BookPrice,
+                    BookPages = b.BookPages,
+                    BookLanguage = b.BookLanguage,
+                    Quantity = b.quantity
+                })
+                .ToList();
+
+            return View(featuredBooks);
         }
         //===============================================BOOKS================================================
         public IActionResult Books()
@@ -36,14 +52,7 @@ namespace LibraryManagement.Controllers
         }
 
         
-        public IActionResult About()
-        {
-            return View();
-        }
-        public IActionResult Courses()
-        {
-            return View();
-        }
+        
         public IActionResult ReturnBook()
         {
             return View();
@@ -60,7 +69,7 @@ namespace LibraryManagement.Controllers
 
             if (issuedBook == null)
             {
-                TempData["ErrorMessage"] = "Ye issued book record nahi mila.";
+                TempData["ErrorMessage"] = "No issued book record found";
                 return RedirectToAction("Profile", "Home");
             }
 
@@ -72,7 +81,7 @@ namespace LibraryManagement.Controllers
 
             if (issuedBook.status == "Returned")
             {
-                TempData["ErrorMessage"] = "Ye book already return ho chuki hai.";
+                TempData["ErrorMessage"] = "You have already returned this book";
                 return RedirectToAction("Profile", "Home");
             }
 
@@ -89,10 +98,12 @@ namespace LibraryManagement.Controllers
 
             _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Book successfully return ho gayi.";
+            TempData["SuccessMessage"] = "The Book is successfully returned!";
             return RedirectToAction("Profile","Home");
         }
         //==========================================PROFILE======================================
+
+        [RoleAuthorize("User")]
         public IActionResult Profile()
         {
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0; 
@@ -163,9 +174,31 @@ namespace LibraryManagement.Controllers
 
             return View(vm);
         }
+        //-- -- -- -- -- --  CONTACT -- -- -- -- - - -- 
+        [HttpGet]
         public IActionResult Contact()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Contact(ContactMessage model)
+        {
+            if (string.IsNullOrWhiteSpace(model.Name) || string.IsNullOrWhiteSpace(model.Email)
+                || string.IsNullOrWhiteSpace(model.Subject) || string.IsNullOrWhiteSpace(model.Message))
+            {
+                TempData["ErrorMessage"] = "All fields must be filled in order to contact to the organisation";
+                return View(model);
+            }
+
+            model.SubmittedAt = DateTime.Now;
+            model.IsResolved = false;
+
+            _context.ContactMessages.Add(model);
+            _context.SaveChanges();
+
+            TempData["SuccessMessage"] = "Your message has been sent to the organisation we'll respond it shortly";
+            return RedirectToAction(nameof(Contact));
         }
 
         //=================================Register====================================\\
@@ -174,15 +207,39 @@ namespace LibraryManagement.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Register(User obj)
+        public IActionResult Register(User obj, string ConfirmPassword)
         {
-            
+            // 1. Client ConfirmPassword ki manual check
+            if (obj.Password != ConfirmPassword)
+            {
+                ViewBag.Error = "Passwords do not match.";
+                return View(obj);
+            }
+
+            // 2. Email duplication check
+            if (_context.Users.Any(u => u.Email == obj.Email))
+            {
+                ViewBag.Error = "Email already registered.";
+                return View(obj);
+            }
+
+            // 3. Directly Save & Auto-Login
+            // Note: Agar Role column database me required hai aur default nahi diya, toh pehle assign kar lein
+            if (string.IsNullOrEmpty(obj.Role))
+            {
+                obj.Role = "User"; // ya jo aapka default role DB me ho
+            }
 
             _context.Users.Add(obj);
-            _context.SaveChanges();
-                return RedirectToAction("Login","Home");
-            
-            return View(obj);
+            _context.SaveChanges(); // DB me auto ID generate ho jayegi
+
+            // 4. Set Session
+            HttpContext.Session.SetInt32("UserId", obj.User_id);
+            HttpContext.Session.SetString("UserName", obj.User_name);
+            HttpContext.Session.SetString("Role", obj.Role ?? "User");
+
+            // 5. Redirect to Home
+            return RedirectToAction("Index", "Home");
         }
         //====================================Login====================================\\
         public IActionResult Login()
@@ -224,16 +281,15 @@ namespace LibraryManagement.Controllers
             return RedirectToAction("Index","Home");
         }
 
+
+        [RoleAuthorize("User")]
         public IActionResult BorrowRequest(int id)
         {
             int bookid = id;
             var userId = HttpContext.Session.GetInt32("UserId");
             
 
-            if(userId == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
+            
             var existingRecord = _context.BorrowRequests.FirstOrDefault(br =>
             br.User_id == userId &&
             br.BookId == bookid && 
@@ -257,15 +313,13 @@ namespace LibraryManagement.Controllers
             return RedirectToAction("Profile", "Home");
         }
         //==============================CART===========================
-        private int CurrentUserId => HttpContext.Session.GetInt32("UserId") ?? 0;
+        private int CurrentUserId => HttpContext.Session.GetInt32("UserId")?? 0;
 
+        [RoleAuthorize("User")]
         public IActionResult Cart()
         {
             var userId = CurrentUserId;
-            if (userId == null)
-            {
-                return RedirectToAction("Login", "Home");
-            }
+            
 
             var cartItems = _context.CartItems
                 .Where(c => c.User_id == userId)
@@ -287,6 +341,7 @@ namespace LibraryManagement.Controllers
         }
 
         [HttpPost]
+        [RoleAuthorize("User")]
         public IActionResult AddToCart(int id, int quantity = 1)
         {
             int userId = CurrentUserId;
@@ -294,7 +349,7 @@ namespace LibraryManagement.Controllers
             var book = _context.Books.FirstOrDefault(b => b.BookId == id);
             if (book == null)
             {
-                TempData["ErrorMessage"] = "Book nahi mili.";
+                TempData["ErrorMessage"] = "Book not found";
                 return RedirectToAction("BooksDetail", new { id });
             }
 
@@ -325,6 +380,8 @@ namespace LibraryManagement.Controllers
         }
 
         [HttpPost]
+
+        [RoleAuthorize("User")]
         public IActionResult Remove(int id) // id = CartItemId
         {
             int userId = CurrentUserId;
@@ -340,14 +397,11 @@ namespace LibraryManagement.Controllers
             return RedirectToAction("Cart","Home");
         }
         //==============================WISHLIST===========================
- 
-public IActionResult Wishlist()
+
+        [RoleAuthorize("User")]
+        public IActionResult Wishlist()
         {
             var userId = CurrentUserId;
-            if (userId == 0)
-            {
-                return RedirectToAction("Login", "Home");
-            }
 
             var wishlistItems = _context.WishlistItems
                 .Where(w => w.User_id == userId)
@@ -369,13 +423,15 @@ public IActionResult Wishlist()
         }
 
         [HttpPost]
+
+        [RoleAuthorize("User")]
         public IActionResult AddToWishlist(int id) // id = BookId
         {
             int userId = CurrentUserId;
             var book = _context.Books.FirstOrDefault(b => b.BookId == id);
             if (book == null)
             {
-                TempData["ErrorMessage"] = "Book nahi mili.";
+                TempData["ErrorMessage"] = "Book not ofund.";
                 return RedirectToAction("BooksDetail", new { id });
             }
 
@@ -398,6 +454,8 @@ public IActionResult Wishlist()
         }
 
         [HttpPost]
+
+        [RoleAuthorize("User")]
         public IActionResult RemoveFromWishlist(int id) // id = WishlistItemId
         {
             int userId = CurrentUserId;
@@ -412,6 +470,8 @@ public IActionResult Wishlist()
         }
 
         [HttpPost]
+
+        [RoleAuthorize("User")]
         public IActionResult MoveToCart(int id) // id = WishlistItemId
         {
             int userId = CurrentUserId;
@@ -437,13 +497,12 @@ public IActionResult Wishlist()
         //==============================CHECKOUT===========================
 
         [HttpGet]
+
+        [RoleAuthorize("User")]
         public IActionResult Checkout()
         {
             var userId = CurrentUserId;
-            if (userId == 0)
-            {
-                return RedirectToAction("Login", "Home");
-            }
+            
 
             var cartItems = _context.CartItems
                 .Where(c => c.User_id == userId)
@@ -462,7 +521,7 @@ public IActionResult Wishlist()
 
             if (!cartItems.Any())
             {
-                TempData["ErrorMessage"] = "Aapka cart khaali hai.";
+                TempData["ErrorMessage"] = "Your cart is empty.";
                 return RedirectToAction("Cart", "Home");
             }
 
@@ -476,13 +535,12 @@ public IActionResult Wishlist()
         }
 
         [HttpPost]
+
+        [RoleAuthorize("User")]
         public IActionResult PlaceOrder(CheckoutVM model)
         {
             var userId = CurrentUserId;
-            if (userId == 0)
-            {
-                return RedirectToAction("Login", "Home");
-            }
+            
 
             var cartItems = _context.CartItems
                 .Where(c => c.User_id == userId)
@@ -490,7 +548,7 @@ public IActionResult Wishlist()
 
             if (!cartItems.Any())
             {
-                TempData["ErrorMessage"] = "Aapka cart khaali hai.";
+                TempData["ErrorMessage"] = "Your cart is empty.";
                 return RedirectToAction("Cart", "Home");
             }
 
@@ -543,6 +601,8 @@ public IActionResult Wishlist()
         }
 
         [HttpGet]
+
+        [RoleAuthorize("User")]
         public IActionResult OrderConfirmation(int id)
         {
             var userId = CurrentUserId;
@@ -559,6 +619,8 @@ public IActionResult Wishlist()
         }
 
         [HttpGet]
+
+        [RoleAuthorize("User")]
         public IActionResult MyOrders()
         {
             var userId = CurrentUserId;

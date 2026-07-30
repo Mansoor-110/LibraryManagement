@@ -4,8 +4,8 @@
 }
 
 <!--**********************************
-           Content body start
-       ***********************************-->
+            Content body start
+***********************************-->
 <div class="content-body">
     <div class="container-fluid">
         <div class="row page-titles mx-0">
@@ -31,8 +31,8 @@
                         <h4 class="card-title">Books Data</h4>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table primary-table-bordered table-responsive-sm text-muted">
+                        <div class="table-responsive w-100">
+                            <table class="table primary-table-bordered text-muted align-middle text-nowrap">
                                 <thead class="thead-primary">
                                     <tr class="text-primary">
                                         <th>BookId</th>
@@ -50,27 +50,37 @@
                                     {
                                         <tr>
                                             <td>@item.BookId</td>
-                                            <td><img src="~/BookImages/@item.BookImageName" width="100" /> </td>
+                                            <td>
+                                                <img src="~/BookImages/@item.BookImageName" class="img-fluid rounded" style="max-width: 60px; height: auto;" alt="@item.BookName" />
+                                            </td>
                                             <td>@item.BookName</td>
                                             <td>@item.quantity</td>
                                             <td>@item.qtyforborrow</td>
                                             <td>@item.BookPrice</td>
-                                            <td>@item.IsActive</td>
+                                            <td>
+                                                @if (item.IsActive)
+                                                {
+                                                    <span class="badge badge-success">Active</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-danger">Inactive</span>
+                                                }
+                                            </td>
 
-                                            <td disabled>
-                                                <span class="ml-3 me-3">
-
+                                            <td>
+                                                <span class="mx-1">
                                                     @* <a asp-action="BookEdit" asp-route-id="@item.BookId" ><i class="fa fa-pencil text-info" title="Edit"></i></a> *@
                                                 </span>
-                                                <span class="ml-3 me-3">
+                                                <span class="mx-1">
                                                     <!-- Button trigger modal -->
-                                                    <a data-toggle="modal" data-target="#exampleModalCenter-@item.BookId" type="button"><i class="fa-solid fa-eye text-primary" title="View" ></i></a>
-
-                                                    <a></a>
+                                                    <a data-toggle="modal" data-target="#exampleModalCenter-@item.BookId" type="button" class="btn btn-sm btn-primary-light">
+                                                        <i class="fa-solid fa-eye text-primary" title="View"></i>
+                                                    </a>
 
                                                     <!-- Modal -->
                                                     <div class="modal fade" id="exampleModalCenter-@item.BookId" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title text-secondary" id="exampleModalLongTitle">Detail of this book</h5>
@@ -78,19 +88,25 @@
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
-                                                                <div class="modal-body">
-                                                                    <ul>
-                                                                        <li>Book-Name: <span class="text-black"> @item.BookName</span></li>
-                                                                        <li><img src="~/BookImages/@item.BookImageName" alt="Alternate Text" width="120" /></li>
-                                                                        <li>Description: <p>@item.BookDescription</p></li>
-                                                                        <li>Author: @item.BookAuthor</li>
-                                                                        <li>Pages : @item.BookPages</li>
-                                                                        <li>Book Language : @item.BookLanguage</li>
-                                                                        <li>Quantity : @item.quantity</li>
-                                                                        <li>Qty Available for Borrow : @item.qtyforborrow</li>
-                                                                        <li>Price : @item.BookPrice</li>
-                                                                        <li>Is Active : @item.IsActive</li>
-                                                                    </ul>
+                                                                <div class="modal-body text-wrap">
+                                                                    <div class="row align-items-center">
+                                                                        <div class="col-md-4 text-center mb-3 mb-md-0">
+                                                                            <img src="~/BookImages/@item.BookImageName" class="img-fluid rounded shadow-sm" style="max-width: 100%; max-height: 250px;" alt="@item.BookName" />
+                                                                        </div>
+                                                                        <div class="col-md-8">
+                                                                            <ul class="list-group list-group-flush text-left">
+                                                                                <li class="list-group-item"><strong>Book Name:</strong> <span class="text-black">@item.BookName</span></li>
+                                                                                <li class="list-group-item"><strong>Description:</strong> <p class="mb-0">@item.BookDescription</p></li>
+                                                                                <li class="list-group-item"><strong>Author:</strong> @item.BookAuthor</li>
+                                                                                <li class="list-group-item"><strong>Pages:</strong> @item.BookPages</li>
+                                                                                <li class="list-group-item"><strong>Language:</strong> @item.BookLanguage</li>
+                                                                                <li class="list-group-item"><strong>Quantity:</strong> @item.quantity</li>
+                                                                                <li class="list-group-item"><strong>Qty Available for Borrow:</strong> @item.qtyforborrow</li>
+                                                                                <li class="list-group-item"><strong>Price:</strong> @item.BookPrice</li>
+                                                                                <li class="list-group-item"><strong>Is Active:</strong> @item.IsActive</li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -98,17 +114,9 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </span>
-
-
-
-
-
                                             </td>
-
                                         </tr>
-
                                     }
                                 </tbody>
                             </table>

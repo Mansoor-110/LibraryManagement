@@ -32,6 +32,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQm9ycm93UmVxdWVzdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/DELL 7310/source/repos/LibraryManagement/LibraryManagement/Views/Admin/ContactMessages.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ29udGFjdE1lc3NhZ2VzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/DELL 7310/source/repos/LibraryManagement/LibraryManagement/Views/Admin/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -78,10 +82,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/DELL 7310/source/repos/LibraryManagement/LibraryManagement/Views/Home/Contact.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDb250YWN0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/DELL 7310/source/repos/LibraryManagement/LibraryManagement/Views/Home/Courses.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxDb3Vyc2VzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/DELL 7310/source/repos/LibraryManagement/LibraryManagement/Views/Home/Index.cshtml]

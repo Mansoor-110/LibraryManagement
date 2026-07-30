@@ -4,9 +4,9 @@
 }
 
 <!--**********************************
-           Content body start
-       ***********************************-->
-       <style>
+            Content body start
+***********************************-->
+<style>
     :root {
         --teal: #1cb8ba;
         --teal-dark: #149193;
@@ -20,6 +20,7 @@
         --radius: 10px;
         --shadow: 0 10px 30px rgba(20,33,61,0.08);
     }
+
     .badge-pill {
         display: inline-block;
         font-size: 12px;
@@ -27,6 +28,7 @@
         padding: 5px 14px;
         border-radius: 20px;
     }
+
     .badge-pending {
         background: var(--amber-tint);
         color: var(--amber);
@@ -51,7 +53,8 @@
         background: var(--red-tint);
         color: var(--red);
     }
-       </style>
+</style>
+
 <div class="content-body">
     <div class="container-fluid">
         <div class="row page-titles mx-0">
@@ -77,18 +80,18 @@
                         <h4 class="card-title">Requests</h4>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table primary-table-bordered table-responsive-sm text-muted">
+                        <div class="table-responsive w-100">
+                            <table class="table primary-table-bordered text-muted align-middle text-nowrap">
                                 <thead class="thead-primary">
                                     <tr class="text-primary">
-                                        <th width="60px">Request Id</th>
-                                        <th width="120px">Book Image</th>
-                                        <th width="150px">Book Name</th>
-                                        <th width="200px">Requested By</th>
-                                        <th width="90px">Status</th>
-                                        <th width="70px">Qty For Borrow</th>
-                                        <th width="110px">Request Date</th>
-                                        <th width="80px">Action</th>
+                                        <th style="min-width: 60px;">Request Id</th>
+                                        <th style="min-width: 100px;">Book Image</th>
+                                        <th style="min-width: 150px;">Book Name</th>
+                                        <th style="min-width: 200px;">Requested By</th>
+                                        <th style="min-width: 90px;">Status</th>
+                                        <th style="min-width: 70px;">Qty For Borrow</th>
+                                        <th style="min-width: 110px;">Request Date</th>
+                                        <th style="min-width: 120px;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -96,7 +99,9 @@
                                     {
                                         <tr>
                                             <td>@item.borrowRequestid</td>
-                                            <td><img src="~/BookImages/@item.BookImageName" width="100" /></td>
+                                            <td>
+                                                <img src="~/BookImages/@item.BookImageName" class="img-fluid rounded" style="max-width: 60px; height: auto;" alt="@item.BookName" />
+                                            </td>
                                             <td>@item.BookName</td>
                                             <td>
                                                 <span class="font-weight-bold">Name:</span> @item.User_name <br>
@@ -105,10 +110,10 @@
                                             @if (item.Status == "Pending")
                                             {
                                                 <td><span class="badge-pill badge-pending">@item.Status</span></td>
-                                            }else if(item.Status == "Approved")
+                                            }
+                                            else if (item.Status == "Approved")
                                             {
                                                 <td><span class="badge-pill badge-approved">@item.Status</span></td>
-
                                             }
                                             else
                                             {
@@ -117,24 +122,16 @@
                                             <td>@item.qtyforborrow</td>
                                             <td>@item.CreatedAt.ToString("dd-MMMM-yy")</td>
                                             <td>
-                                                @if (item.Status == "Pending" && item.qtyforborrow == 0) {
-
-
-
-
-                                                    <span class="font-weight-bold"> Not-Available</span>
-                                                    <a asp-action="RejectRequest" asp-controller="Librarian" asp-route-id="@item.borrowRequestid" class="btn btn-danger" style="width: 90px;">Reject </a>
-
-
-                                                } else if (item.Status == "Pending"){
-
-                                                    <a asp-action="ApproveRequest" asp-controller="Librarian" asp-route-id="@item.borrowRequestid" class="btn btn-outline-success mb-2" style="width: 90px;">Approve</a>
-
-                                                    <a asp-action="RejectRequest" asp-controller="Librarian" asp-route-id="@item.borrowRequestid" class="btn btn-danger" style="width: 90px;">Reject </a>
-                                                } 
-                                                
-                                                 
-
+                                                @if (item.Status == "Pending" && item.qtyforborrow == 0)
+                                                {
+                                                    <span class="font-weight-bold text-danger d-block mb-1">Not-Available</span>
+                                                    <a asp-action="RejectRequest" asp-controller="Librarian" asp-route-id="@item.borrowRequestid" class="btn btn-sm btn-danger style-btn">Reject</a>
+                                                }
+                                                else if (item.Status == "Pending")
+                                                {
+                                                    <a asp-action="ApproveRequest" asp-controller="Librarian" asp-route-id="@item.borrowRequestid" class="btn btn-sm btn-outline-success me-1 mb-1 style-btn">Approve</a>
+                                                    <a asp-action="RejectRequest" asp-controller="Librarian" asp-route-id="@item.borrowRequestid" class="btn btn-sm btn-danger mb-1 style-btn">Reject</a>
+                                                }
                                             </td>
                                         </tr>
                                     }

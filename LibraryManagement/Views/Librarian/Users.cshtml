@@ -3,9 +3,10 @@
 @{
     Layout = "~/views/shared/_librarianLayout.cshtml";
 }
+
 <!--**********************************
-           Content body start
-       ***********************************-->
+    Content body start
+***********************************-->
 <div class="content-body">
     <div class="container-fluid">
         <div class="row page-titles mx-0">
@@ -22,8 +23,8 @@
                 </ol>
             </div>
         </div>
-        <!-- row -->
 
+        <!-- row -->
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -31,8 +32,9 @@
                         <h4 class="card-title">Users' Data</h4>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table primary-table-bordered table-responsive-sm text-muted">
+                        <!-- Added w-100 to wrapper and removed table-responsive-sm from <table> tag -->
+                        <div class="table-responsive w-100">
+                            <table class="table primary-table-bordered text-muted text-nowrap">
                                 <thead class="thead-primary">
                                     <tr class="text-primary">
                                         <th>User Id</th>
@@ -40,7 +42,6 @@
                                         <th>Email</th>
                                         <th>Role</th>
                                         <th>Created-At</th>
-                                    
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -50,12 +51,11 @@
                                             <td>@Html.DisplayFor(modelItem => item.User_id)</td>
                                             <td>@Html.DisplayFor(modelItem => item.User_name)</td>
                                             <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                            <td>@Html.DisplayFor(modelItem => item.Role)</td>
+                                            <td>
+                                                <span class="badge badge-primary">@Html.DisplayFor(modelItem => item.Role)</span>
+                                            </td>
                                             <td>@item.CreatedAt.ToString("dd-MMMM-yy")</td>
-                                            
-
                                         </tr>
-
                                     }
                                 </tbody>
                             </table>

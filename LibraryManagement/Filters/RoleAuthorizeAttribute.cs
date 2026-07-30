@@ -17,7 +17,7 @@ namespace LibraryManagement.Filters
             if (string.IsNullOrEmpty(role) || Array.IndexOf(_allowedRoles, role) == -1)
             {
 
-                context.Result = new RedirectToActionResult("Index", "Home",null);
+                context.Result = new RedirectToActionResult("Login", "Home",null);
                 return;
             }
 

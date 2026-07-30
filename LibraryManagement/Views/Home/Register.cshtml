@@ -1,17 +1,28 @@
 ﻿@{
     Layout = null;
-    
 }
 @model User;
-    
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
     .register-wrapper {
-        min-height: 80vh;
+        min-height: 100dvh;
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 60px 16px;
+        padding: 32px 16px;
         background: #f5f7fa;
     }
 
@@ -52,12 +63,6 @@
             border-radius: 2px;
             margin: 10px auto 0;
         }
-
-    .register-form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-    }
 
     .register-form-group {
         margin-bottom: 16px;
@@ -152,6 +157,14 @@
         min-height: 16px;
     }
 
+    /* Errors Styling */
+    .text-danger {
+        color: #e24b4a;
+        font-size: 11px;
+        margin-top: 4px;
+        display: block;
+    }
+
     .register-terms-row {
         display: flex;
         align-items: flex-start;
@@ -210,64 +223,6 @@
             transform: scale(0.99);
         }
 
-    .register-divider {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin: 18px 0;
-    }
-
-        .register-divider::before,
-        .register-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #eee;
-        }
-
-        .register-divider span {
-            font-size: 11px;
-            color: #bbb;
-            white-space: nowrap;
-        }
-
-    .register-social-row {
-        display: flex;
-        gap: 10px;
-    }
-
-    .register-social-btn {
-        flex: 1;
-        padding: 9px 6px;
-        border: 1.5px solid #e8e8e8;
-        border-radius: 6px;
-        background: #fff;
-        cursor: pointer;
-        font-size: 13px;
-        font-family: inherit;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        color: #555;
-        transition: border-color 0.2s, background 0.2s;
-        white-space: nowrap;
-    }
-
-        .register-social-btn:hover {
-            border-color: #1abdb5;
-            background: #f0fffe;
-        }
-
-    .register-fb {
-        color: #1877f2;
-    }
-
-    .register-ggl {
-        color: #ea4335;
-    }
-
     .register-login-link {
         text-align: center;
         margin-top: 18px;
@@ -285,14 +240,21 @@
                 text-decoration: underline;
             }
 
-    @@media (max-width: 480px) {
-        .register-form-row {
-            grid-template-columns: 1fr;
+    @@media (max-width: 576px) {
+        .register-wrapper
+
+    {
+        padding: 20px 12px;
+    }
+
+    .register-card {
+        padding: 28px 20px;
+    }
+
+        .register-card .card-header h2 {
+            font-size: 20px;
         }
 
-        .register-card {
-            padding: 28px 18px;
-        }
     }
 </style>
 
@@ -305,68 +267,68 @@
             <div class="accent-line"></div>
         </div>
 
-        <form  asp-action="Register" asp-controller="Home" method="post">
-
+        <form asp-action="Register" asp-controller="Home" method="post" onsubmit="return validateForm()">
+            @if (ViewBag.Error != null)
+            {
+                <div style="background: #fde8e8; color: #e24b4a; padding: 10px 14px; border-radius: 6px; font-size: 13px; margin-bottom: 16px; border: 1px solid #f8b4b4; text-align: center;">
+                    <i class="fas fa-exclamation-circle" style="margin-right: 6px;"></i> @ViewBag.Error
+                </div>
+            }
             <div class="register-form-group">
-                <label aspfor="fname">Name</label>
+                <label for="fname">Name</label>
                 <div class="register-input-wrap">
                     <i class="fas fa-user icon"></i>
-                    <input type="text" id="fname" asp-for="User_name" placeholder="John" />
+                    <input type="text" id="fname" asp-for="User_name" placeholder="John" required />
                 </div>
-
-            
-        </div>
-
-        <div class="register-form-group">
-            <label for="email">Email Address</label>
-            <div class="register-input-wrap">
-                <i class="fas fa-envelope icon"></i>
-                <input type="email" asp-for="Email" id="email" placeholder="you@example.com" />
+                @Html.ValidationMessageFor(m => m.User_name, "", new { @class = "text-danger" })
             </div>
-        </div>
 
-        <div class="register-form-group">
-            <label for="password">Password</label>
-            <div class="register-input-wrap">
-                <i class="fas fa-lock icon"></i>
-                <input type="password" id="password" asp-for="Password" placeholder="Create a strong password" oninput="checkStrength(this.value)" />
-                <i class="fas fa-eye register-toggle-eye" onclick="togglePwd('password', this)"></i>
+            <div class="register-form-group">
+                <label for="email">Email Address</label>
+                <div class="register-input-wrap">
+                    <i class="fas fa-envelope icon"></i>
+                    <input type="email" asp-for="Email" id="email" placeholder="you@example.com" required />
+                </div>
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
             </div>
-            <div class="register-strength-bar">
-                <div class="register-strength-seg" id="s1"></div>
-                <div class="register-strength-seg" id="s2"></div>
-                <div class="register-strength-seg" id="s3"></div>
-                <div class="register-strength-seg" id="s4"></div>
+
+            <div class="register-form-group">
+                <label for="password">Password</label>
+                <div class="register-input-wrap">
+                    <i class="fas fa-lock icon"></i>
+                    <input type="password" id="password" asp-for="Password" placeholder="Create a strong password" oninput="checkStrength(this.value)" required />
+                    <i class="fas fa-eye register-toggle-eye" onclick="togglePwd('password', this)"></i>
+                </div>
+                <div class="register-strength-bar">
+                    <div class="register-strength-seg" id="s1"></div>
+                    <div class="register-strength-seg" id="s2"></div>
+                    <div class="register-strength-seg" id="s3"></div>
+                    <div class="register-strength-seg" id="s4"></div>
+                </div>
+                <div class="register-hint" id="slabel"></div>
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
             </div>
-            <div class="register-hint" id="slabel"></div>
-        </div>
 
-        <div class="register-form-group">
-            <label for="confirm">Confirm Password</label>
-            <div class="register-input-wrap">
-                <i class="fas fa-lock icon"></i>
-                <input type="password" id="confirm" asp-for="ConfirmPassword" placeholder="Re-enter your password" oninput="checkMatch()" />
-                <i class="fas fa-eye register-toggle-eye" onclick="togglePwd('confirm', this)"></i>
+            <div class="register-form-group">
+                <label for="confirm">Confirm Password</label>
+                <div class="register-input-wrap">
+                    <i class="fas fa-lock icon"></i>
+                    <!-- ConfirmPassword name attribute Controller me parameter se match karega -->
+                    <input type="password" id="confirm" name="ConfirmPassword" placeholder="Re-enter your password" oninput="checkMatch()" required />
+                    <i class="fas fa-eye register-toggle-eye" onclick="togglePwd('confirm', this)"></i>
+                </div>
+                <div class="register-hint" id="matchlabel"></div>
+                @Html.ValidationMessage("ConfirmPassword", new { @class = "text-danger" })
             </div>
-            <div class="register-hint" id="matchlabel"></div>
-        </div>
 
-        <div class="register-terms-row">
-            <input type="checkbox" id="terms" />
-            <label for="terms">I agree to the <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a></label>
-        </div>
+            <div class="register-terms-row">
+                <input type="checkbox" id="terms" required />
+                <label for="terms">I agree to the <a href="#">Terms &amp; Conditions</a> and <a href="#">Privacy Policy</a></label>
+            </div>
 
-        <input class="register-submit-btn" type="submit" value="Create Account">
-           
-       
+            <button class="register-submit-btn" type="submit">Create Account</button>
 
-        <div class="register-divider"><span>or sign up with</span></div>
-        <div class="register-social-row">
-            <button class="register-social-btn"><i class="fab fa-facebook-f register-fb"></i> Facebook</button>
-            <button class="register-social-btn"><i class="fab fa-google register-ggl"></i> Google</button>
-        </div>
-
-        <div class="register-login-link">Already have an account? <a asp-action="Login">Login</a></div>
+            <div class="register-login-link">Already have an account? <a asp-action="Login">Login</a></div>
 
         </form>
     </div>
@@ -413,15 +375,19 @@
       }
     }
 
-    function handleSubmit() {
-      const fname = document.getElementById('fname').value.trim();
-      const email = document.getElementById('email').value.trim();
+    function validateForm() {
       const pwd = document.getElementById('password').value;
       const conf = document.getElementById('confirm').value;
       const terms = document.getElementById('terms').checked;
-      if (!fname || !email || !pwd || !conf) { alert('Please fill in all fields.'); return; }
-      if (pwd !== conf) { alert('Passwords do not match.'); return; }
-      if (!terms) { alert('Please accept the Terms & Conditions.'); return; }
-      alert('Account created successfully! Welcome to eLEARNING 🎓');
+
+      if (pwd !== conf) {
+        alert('Passwords do not match!');
+        return false;
+      }
+      if (!terms) {
+        alert('Please agree to the Terms & Conditions.');
+        return false;
+      }
+      return true;
     }
 </script>

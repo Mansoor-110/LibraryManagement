@@ -1,6 +1,7 @@
 ﻿@model LibraryManagement.Models.User;
 @{
     Layout = "~/views/shared/_adminLayout.cshtml";
+    var userId = Context.Session.GetInt32("UserId");
 }
 
 <!--**********************************
@@ -46,10 +47,24 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <select class="form-control form-control" asp-for="Role">
-                                        <option value="User">User</option>
-                                        <option value="Admin">Admin</option>
-                                    </select>
+                                    @if (userId == Model.User_id)
+                                    {
+                                        <select class="form-control form-control" asp-for="Role" disabled>
+                                            <option value="User">User</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="Librarian">Librarian</option>
+
+                                        </select>
+
+                                    }
+                                    else
+                                    {
+                                        <select class="form-control form-control" asp-for="Role">
+                                            <option value="User">User</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="Librarian">Librarian</option>
+                                        </select>
+                                    }
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control input-default" placeholder="CreatedAt" asp-for="CreatedAt">

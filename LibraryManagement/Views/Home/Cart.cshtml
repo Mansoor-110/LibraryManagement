@@ -7,12 +7,12 @@
 
     .cart-wrap {
         background: #fff;
-        padding: 40px 40px 80px;
+        padding: 30px 15px 60px;
     }
 
     .cart-summary-bar {
         max-width: 1100px;
-        margin: 0 auto 30px;
+        margin: 0 auto 20px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -28,38 +28,37 @@
     .cart-list {
         display: flex;
         flex-direction: column;
-        gap: 22px;
+        gap: 16px;
         max-width: 1100px;
         margin: 0 auto;
     }
 
     .cart-item-card {
         display: flex;
-        align-items: stretch;
-        border: 1px solid #eee;
-        border-radius: 6px;
+        align-items: center;
+        border: 1px solid #eef1f6;
+        border-radius: 8px;
         overflow: hidden;
         background: #fff;
-        transition: box-shadow 0.2s, transform 0.2s;
+        padding: 12px;
+        gap: 12px;
+        transition: box-shadow 0.25s ease, transform 0.25s ease;
     }
 
         .cart-item-card:hover {
-            box-shadow: 0 8px 24px rgba(26,35,64,0.10);
-            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(26,35,64,0.08);
         }
 
     .cart-item-img {
-        flex: 0 0 90px;
-        width: 90px;
-        height: 90px;
-        margin: 15px;
-        border-radius: 4px;
-        background: #e8f4f8;
+        flex: 0 0 75px;
+        width: 75px;
+        height: 95px;
+        border-radius: 6px;
+        background: #f4f6f9;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        position: relative;
     }
 
         .cart-item-img img {
@@ -71,13 +70,11 @@
     .cart-stock-badge {
         display: inline-block;
         font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        padding: 3px 8px;
-        border-radius: 2px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 10px;
         color: #fff;
-        margin-top: 6px;
+        margin-top: 4px;
     }
 
         .cart-stock-badge.in {
@@ -90,89 +87,85 @@
 
     .cart-item-body {
         flex: 1;
-        padding: 15px 20px 15px 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 20px;
+        gap: 12px;
+        min-width: 0;
     }
 
     .cart-item-info {
-        flex: 1;
+        flex: 1 1 auto;
         min-width: 0;
     }
 
     .cart-item-title {
-        font-size: 18px;
+        font-size: 15px;
         font-weight: 700;
         color: #1a2340;
-        margin-bottom: 4px;
+        margin-bottom: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .cart-item-author {
-        font-size: 13px;
-        color: #888;
+        font-size: 12px;
+        color: #777;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .cart-item-divider {
         width: 1px;
-        align-self: stretch;
-        background: #f1f1f1;
+        height: 40px;
+        background: #eef1f6;
         flex: 0 0 1px;
     }
 
-    .cart-item-price-block {
+    .cart-item-price-block, .cart-item-qty-block {
         flex: 0 0 auto;
         text-align: center;
-        padding: 0 20px;
     }
 
-    .cart-item-price-label {
-        font-size: 11px;
-        letter-spacing: 1px;
+    .cart-item-price-label, .cart-item-qty-label {
+        font-size: 10px;
+        letter-spacing: 0.5px;
         text-transform: uppercase;
         color: #888;
-        margin-bottom: 6px;
+        margin-bottom: 2px;
     }
 
     .cart-item-price {
-        font-size: 18px;
+        font-size: 15px;
         font-weight: 700;
         color: #1a2340;
-    }
-
-    .cart-item-qty-block {
-        flex: 0 0 auto;
-        text-align: center;
-        padding: 0 20px;
-    }
-
-    .cart-item-qty-label {
-        font-size: 11px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        color: #888;
-        margin-bottom: 6px;
+        white-space: nowrap;
     }
 
     .cart-item-qty {
-        font-size: 20px;
+        font-size: 16px;
         font-weight: 700;
         color: #1a2340;
     }
 
-    .cart-remove-btn {
+    .cart-item-body form {
+        margin: 0;
         flex: 0 0 auto;
+    }
+
+    .cart-remove-btn {
         white-space: nowrap;
-        padding: 11px 22px;
+        padding: 8px 12px;
         background: transparent;
         color: #e74c3c;
-        border: 1.5px solid #e74c3c;
-        font-size: 13px;
+        border: 1px solid #e74c3c;
+        font-size: 12px;
         font-weight: 600;
         cursor: pointer;
-        border-radius: 2px;
-        transition: all 0.2s;
+        border-radius: 4px;
+        transition: all 0.2s ease;
     }
 
         .cart-remove-btn:hover {
@@ -182,63 +175,48 @@
 
     .cart-empty {
         text-align: center;
-        padding: 80px 20px;
-        max-width: 500px;
-        margin: 0 auto;
+        padding: 50px 20px;
     }
-
-        .cart-empty p {
-            font-size: 15px;
-            color: #888;
-            margin-bottom: 24px;
-        }
 
     .cart-browse-btn {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
         background: #1a2340;
         color: #fff;
-        border: none;
-        padding: 13px 26px;
-        font-size: 14px;
-        font-weight: 600;
-        border-radius: 2px;
+        padding: 10px 20px;
+        font-size: 13px;
+        border-radius: 4px;
         text-decoration: none;
-        transition: background 0.2s;
     }
-
-        .cart-browse-btn:hover {
-            background: #00bcd4;
-        }
 
     /* ---- Checkout footer bar ---- */
     .cart-checkout-bar {
         max-width: 1100px;
-        margin: 30px auto 0;
+        margin: 24px auto 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 20px;
-        border-top: 1px solid #eee;
-        padding-top: 26px;
+        gap: 16px;
+        border-top: 1px solid #eef1f6;
+        padding-top: 20px;
     }
 
     .cart-total-block {
         display: flex;
         align-items: baseline;
-        gap: 10px;
+        gap: 8px;
     }
 
     .cart-total-label {
-        font-size: 13px;
+        font-size: 12px;
         color: #888;
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
 
     .cart-total-value {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 700;
         color: #1a2340;
     }
@@ -250,14 +228,12 @@
         background: #00bcd4;
         color: #fff;
         border: none;
-        padding: 14px 32px;
+        padding: 12px 24px;
         font-size: 14px;
         font-weight: 600;
-        letter-spacing: 0.5px;
-        cursor: pointer;
-        border-radius: 2px;
+        border-radius: 4px;
         text-decoration: none;
-        transition: background 0.2s;
+        transition: background 0.2s ease;
     }
 
         .checkout-btn:hover {
@@ -265,158 +241,169 @@
             color: #fff;
         }
 
-    @@media (max-width: 800px) {
+    /* ---- Mobile Responsive Tweaks ---- */
+    @@media (max-width: 600px) {
+        .cart-wrap {
+            padding: 15px 8px;
+        }
+
+        .cart-item-card {
+            padding: 8px;
+            gap: 8px;
+        }
+
+        .cart-item-img {
+            flex: 0 0 55px;
+            width: 55px;
+            height: 75px;
+        }
+
         .cart-item-body {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 14px;
-            padding: 15px 15px 15px 0;
+            gap: 6px;
+        }
+
+        .cart-item-title {
+            font-size: 13px;
+        }
+
+        .cart-item-author {
+            font-size: 11px;
         }
 
         .cart-item-divider {
             display: none;
         }
 
-        .cart-item-price-block {
-            text-align: left;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .cart-item-price-label, .cart-item-qty-label {
+            display: none;
         }
 
-        .cart-item-qty-block {
-            text-align: left;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .cart-item-price {
+            font-size: 13px;
+        }
+
+        .cart-item-qty {
+            font-size: 13px;
         }
 
         .cart-remove-btn {
-            width: 100%;
+            padding: 6px 8px;
+            font-size: 11px;
         }
 
         .cart-checkout-bar {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 16px;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cart-total-value {
+            font-size: 16px;
         }
 
         .checkout-btn {
-            justify-content: center;
-        }
-    }
-
-    @@media (max-width: 600px) {
-        .cart-wrap {
-            padding: 30px 20px;
-        }
-
-        .cart-summary-bar {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 6px;
+            padding: 10px 16px;
+            font-size: 12px;
         }
     }
 </style>
-<div container>
 
-@if (TempData["SuccessMessage"] != null)
-{
+<div class="container">
 
-
-  
-    <div class="container mt-3">
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @TempData["SuccessMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    </div>
-}
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="container mt-3">
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            @TempData["ErrorMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    </div>
-}
-
-<div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-    <h6 class="section-title bg-white text-center text-primary px-3">Cart</h6>
-    <h1 class="mb-5">Your Shopping Cart</h1>
-</div>
-
-<div class="cart-wrap">
-
-    @if (!Model.Any())
+    @if (TempData["SuccessMessage"] != null)
     {
-        <div class="cart-empty">
-            <p>Aapka cart abhi khaali hai.</p>
-            <a asp-action="Index" asp-controller="Home" class="cart-browse-btn">
-                <i class="ti ti-arrow-left" aria-hidden="true"></i>
-                Browse Books
-            </a>
-        </div>
-    }
-    else
-    {
-        <div class="cart-summary-bar">
-            <span><strong>@Model.Count</strong> item(s) in your cart</span>
-        </div>
-
-        <div class="cart-list">
-            @foreach (var item in Model)
-            {
-                <div class="cart-item-card">
-                    <div class="cart-item-img">
-                        <img src="~/BookImages/@item.BookImageName" alt="@item.BookName" />
-                    </div>
-                    <div class="cart-item-body">
-                        <div class="cart-item-info">
-                            <div class="cart-item-title">@item.BookName</div>
-                            <div class="cart-item-author">@item.BookAuthor</div>
-                            @if (item.Quantity > 0)
-                            {
-                                <span class="cart-stock-badge in">In Stock</span>
-                            }
-                            else
-                            {
-                                <span class="cart-stock-badge out">Out of Stock</span>
-                            }
-                        </div>
-
-                        <div class="cart-item-divider"></div>
-                        <div class="cart-item-price-block">
-                            <div class="cart-item-price-label">Price</div>
-                            <div class="cart-item-price">Rs.@item.BookPrice</div>
-                        </div>
-                        <div class="cart-item-qty-block">
-                            <div class="cart-item-qty-label">Quantity</div>
-                            <div class="cart-item-qty">@item.Quantity</div>
-                        </div>
-
-                        <form asp-action="Remove" asp-controller="Home" asp-route-id="@item.CartItemId" method="post">
-                            <button type="submit" class="cart-remove-btn">Remove from Cart</button>
-                        </form>
-                    </div>
-                </div>
-            }
-        </div>
-
-        <div class="cart-checkout-bar">
-            <div class="cart-total-block">
-                <span class="cart-total-label">Total:</span>
-                <span class="cart-total-value">Rs.@Model.Sum(i => i.BookPrice * i.Quantity)</span>
+        <div class="container mt-3">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
-            <a asp-action="Checkout" asp-controller="Home" class="checkout-btn">
-                Proceed to Checkout
-                <i class="ti ti-arrow-right" aria-hidden="true"></i>
-            </a>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="container mt-3">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         </div>
     }
 
-</div>
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+        <h6 class="section-title bg-white text-center text-primary px-3">Cart</h6>
+        <h1 class="mb-4 mb-md-5">Your Shopping Cart</h1>
+    </div>
+
+    <div class="cart-wrap">
+
+        @if (!Model.Any())
+        {
+            <div class="cart-empty">
+                <p>Your Cart is empty now.</p>
+                <a asp-action="Books" asp-controller="Home" class="cart-browse-btn">
+                    <i class="ti ti-arrow-left" aria-hidden="true"></i>
+                    Browse Books
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="cart-summary-bar">
+                <span><strong>@Model.Count</strong> item(s) in your cart</span>
+            </div>
+
+            <div class="cart-list">
+                @foreach (var item in Model)
+                {
+                    <div class="cart-item-card">
+                        <div class="cart-item-img">
+                            <img src="~/BookImages/@item.BookImageName" alt="@item.BookName" />
+                        </div>
+                        <div class="cart-item-body">
+                            <div class="cart-item-info">
+                                <div class="cart-item-title" title="@item.BookName">@item.BookName</div>
+                                <div class="cart-item-author">@item.BookAuthor</div>
+                                <div>
+                                    @if (item.Quantity > 0)
+                                    {
+                                        <span class="cart-stock-badge in">In Stock</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="cart-stock-badge out">Out of Stock</span>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="cart-item-divider"></div>
+                            <div class="cart-item-price-block">
+                                <div class="cart-item-price-label">Price</div>
+                                <div class="cart-item-price">Rs. @item.BookPrice</div>
+                            </div>
+                            <div class="cart-item-qty-block">
+                                <div class="cart-item-qty-label">Qty</div>
+                                <div class="cart-item-qty">x @item.Quantity</div>
+                            </div>
+
+                            <form asp-action="Remove" asp-controller="Home" asp-route-id="@item.CartItemId" method="post">
+                                <button type="submit" class="cart-remove-btn">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="cart-checkout-bar">
+                <div class="cart-total-block">
+                    <span class="cart-total-label">Total:</span>
+                    <span class="cart-total-value">Rs. @Model.Sum(i => i.BookPrice * i.Quantity)</span>
+                </div>
+                <a asp-action="Checkout" asp-controller="Home" class="checkout-btn">
+                    Proceed to Checkout
+                    <i class="ti ti-arrow-right" aria-hidden="true"></i>
+                </a>
+            </div>
+        }
+
+    </div>
 </div>

@@ -129,6 +129,41 @@ namespace LibraryManagement.Migrations
                     b.ToTable("CartItems");
                 });
 
+            modelBuilder.Entity("LibraryManagement.Models.ContactMessage", b =>
+                {
+                    b.Property<int>("ContactMessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContactMessageId"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<bool>("IsResolved")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<DateTime>("SubmittedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ContactMessageId");
+
+                    b.ToTable("ContactMessages");
+                });
+
             modelBuilder.Entity("LibraryManagement.Models.IssuedBook", b =>
                 {
                     b.Property<int>("issuedBookId")
@@ -325,7 +360,7 @@ namespace LibraryManagement.Migrations
                     b.HasOne("LibraryManagement.Models.User", "User")
                         .WithMany("BorrowRequests")
                         .HasForeignKey("User_id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Book");
@@ -344,7 +379,7 @@ namespace LibraryManagement.Migrations
                     b.HasOne("LibraryManagement.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("User_id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Book");
@@ -365,7 +400,7 @@ namespace LibraryManagement.Migrations
                     b.HasOne("LibraryManagement.Models.BorrowRequest", "BorrowRequest")
                         .WithMany("IssuedBooks")
                         .HasForeignKey("borrowRequestid")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("BorrowRequest");

@@ -16,41 +16,42 @@ namespace LibraryManagement.Models
         public DbSet<WishlistItem> WishlistItems { get; set; }
         public DbSet<OrderItem> OrderItems{ get; set; }
         public DbSet<Order> Orders{ get; set; }
-
+        public DbSet<ContactMessage> ContactMessages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // IssuedBook -> BorrowRequest
-            modelBuilder.Entity<IssuedBook>()
-                .HasOne(i => i.BorrowRequest)
-                .WithMany(br => br.IssuedBooks)    
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // BorrowRequest -> User
-            modelBuilder.Entity<BorrowRequest>()
-                .HasOne(b => b.User)
-                .WithMany(u => u.BorrowRequests)    
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // BorrowRequest -> Book
-            modelBuilder.Entity<BorrowRequest>()
-                .HasOne(b => b.Book)
-                .WithMany(bk => bk.BorrowRequests)  // ← actual collection name diya
-                .OnDelete(DeleteBehavior.Restrict);
-
             base.OnModelCreating(modelBuilder);
 
+            // 1. CartItem -> User (Cascade delete for User)
             modelBuilder.Entity<CartItem>()
                 .HasOne(c => c.User)
                 .WithMany()
-                .HasForeignKey(c => c.User_id)      // ← ye line add ki
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(c => c.User_id)
+                .OnDelete(DeleteBehavior.Cascade); // Change to Cascade
 
             modelBuilder.Entity<CartItem>()
                 .HasOne(c => c.Book)
                 .WithMany()
-                .HasForeignKey(c => c.BookId)       // ← ye line add ki
+                .HasForeignKey(c => c.BookId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // 2. BorrowRequest -> User (Cascade delete for User)
+            modelBuilder.Entity<BorrowRequest>()
+                .HasOne(b => b.User)
+                .WithMany(u => u.BorrowRequests)
+                .HasForeignKey(b => b.User_id)
+                .OnDelete(DeleteBehavior.Cascade); // Change to Cascade
+
+            modelBuilder.Entity<BorrowRequest>()
+                .HasOne(b => b.Book)
+                .WithMany(bk => bk.BorrowRequests)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // 3. IssuedBook -> BorrowRequest
+            modelBuilder.Entity<IssuedBook>()
+                .HasOne(i => i.BorrowRequest)
+                .WithMany(br => br.IssuedBooks)
+                .OnDelete(DeleteBehavior.Cascade); // BorrowRequest ke saath IssuedBook bhi udd jaye
         }
     }
     

@@ -4444,24 +4444,12 @@ wwwroot\admin\vendor\x-editable\dist\bootstrap3-editable\img\clear.png
 wwwroot\admin\vendor\x-editable\dist\bootstrap3-editable\img\loading.gif
 wwwroot\admin\vendor\x-editable\dist\bootstrap3-editable\js\bootstrap-editable.min.js
 wwwroot\admin\vendor\block-ui\package-lock.json
-wwwroot\BookImages\a515d33a-eba6-4067-9f77-e4d5770307b0 alchemist.jpg
-wwwroot\BookImages\1540beea-38b3-46d1-a0a7-1cc57648c8b1 alchemist.jpg
-wwwroot\BookImages\d60bb8bf-492c-4b23-b98f-834767d54469 alchemist.jpg
-wwwroot\BookImages\eae3d663-df57-450d-be24-ccb9d51794e5 alchemist.jpg
-wwwroot\BookImages\c12e9f82-db79-4fc8-9626-31b08c4d4091 7 habit of highly effectice people.jpg
-wwwroot\BookImages\e50fb614-2ee7-4b88-b9e9-08cd74566cbf the god father.jpg
-wwwroot\BookImages\e613240b-6564-42f2-9ccc-fb3a76d0c88f the god father.jpg
-wwwroot\BookImages\7b0b9197-e6ad-431a-910e-307a830fd27d Jinnah of PK.jpg
-wwwroot\BookImages\715bb99f-e756-4a6c-a1ff-e467f37a5b10 The Deserter.jpg
-wwwroot\BookImages\ab8195bf-3c70-478f-8e6b-382c1f1a1ba3 Ruthless Vows.jpg
-wwwroot\BookImages\633e81c7-08c6-435e-a1dc-2fdaa6db5516 License Renewed.jpg
-wwwroot\BookImages\dd021624-a5fa-4ae2-9163-b92c2cff4e94 alchemist.jpg
-wwwroot\BookImages\49b98e87-5565-4e82-91f8-acde5bc92da6 Ruthless Vows.jpg
-wwwroot\BookImages\8ef3a71d-169c-46b2-8be3-25cc67c5d46b alchemist.jpg
-wwwroot\BookImages\b6b1abbe-8567-443a-a2b9-fbd54e286016 Jinnah of PK.jpg
-wwwroot\BookImages\eee385e4-31fb-40a7-98b5-3d66e453c044 alchemist.jpg
-wwwroot\BookImages\570cef15-cfa0-4738-a4d9-6fe4602441aa License Renewed.jpg
-wwwroot\BookImages\5ebb048d-060c-4ed7-b83e-e17a0362c3fb 7 habit of highly effectice people.jpg
-wwwroot\BookImages\ef73a583-67e3-4a99-822e-eff3ab737ead the god father.jpg
-wwwroot\BookImages\ac48ef79-804f-4765-8c3f-3f42eeec9ac2 alchemist.jpg
-wwwroot\BookImages\07ceccd6-586a-4b74-83c3-66b79a4a7f9d Ruthless Vows.jpg
+wwwroot\BookImages\2c0e1d94-319c-4ed1-8314-6bd06668cffb The rules of love.jpg
+wwwroot\BookImages\3c28cfea-60ba-415f-a770-9ad0a797bc7d Tempest.jpg
+wwwroot\BookImages\42747cd3-5363-40dc-b467-a8d3748a6f82 Powerless Ultra Deluxe Edition.jpg
+wwwroot\BookImages\93cad2dc-b8ea-4e69-9e02-26eaed50794e Tempting Venom The Vipers 3.jpg
+wwwroot\BookImages\a9e4ed1a-2fd2-46c2-8f8e-b3300eff0500 Caraval.jpg
+wwwroot\BookImages\cd5c5990-5eb7-4767-925d-f37786e92119 Homer s The Odyssey.jpg
+wwwroot\BookImages\9233b83e-acab-433c-aafe-996bb5c5d59e Caraval.jpg
+wwwroot\BookImages\31ea44a7-1466-4351-ad53-bc9b4a4280df The wheel of the time.jpg
+wwwroot\BookImages\b507bf64-3a11-4c59-8cb1-6fd039a9d913 the will of the many.jpg
